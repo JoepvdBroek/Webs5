@@ -4,7 +4,7 @@ module.exports = function(app, passport) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-        res.render('index.ejs'); // load the index.ejs file
+        res.render('index.html'); // load the index.ejs file
     });
 
     // =====================================
@@ -49,7 +49,7 @@ module.exports = function(app, passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('profile.ejs', {
+        res.render('profile.html', {
             user : req.user // get the user out of session and pass to template
         });
     });
@@ -66,6 +66,28 @@ module.exports = function(app, passport) {
             successRedirect : '/profile',
             failureRedirect : '/'
         }))
+
+    // locally --------------------------------
+        app.get('/connect/local', function(req, res) {
+            res.render('connect-local.html', { message: req.flash('loginMessage') });
+        });
+        app.post('/connect/local', passport.authenticate('local-signup', {
+            successRedirect : '/profile', // redirect to the secure profile section
+            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        }));
+
+    // facebook -------------------------------
+
+        // send to facebook to do the authentication
+        app.get('/connect/facebook', passport.authorize('facebook', { scope : 'email' }));
+
+        // handle the callback after facebook has authorized the user
+        app.get('/connect/facebook/callback',
+            passport.authorize('facebook', {
+                successRedirect : '/profile',
+                failureRedirect : '/'
+            }));
 
     // =====================================
     // LOGOUT ==============================
