@@ -36,7 +36,7 @@ function fillTestRaces(callback){
 				new Race(race).save(saveCallback);
 			});
 		} else{
-			console.log('Skipping create races testdata, allready present');
+			console.log('Skipping create races testdata, already present');
 		}
 
 		if(callback){ callback(); }
@@ -67,7 +67,7 @@ function fillTestWaypoints(callback){
 				new Waypoint(waypoint).save(saveCallback);
 			});
 		} else{
-			console.log('Skipping create waypoints testdata, allready present');
+			console.log('Skipping create waypoints testdata, already present');
 		}
 
 		if(callback){ callback(); }

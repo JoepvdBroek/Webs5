@@ -1,5 +1,8 @@
 var express = require('express');
 var _ = require('underscore');
+var async = require('async');
+var https = require('https');
+var request = require('request');
 var router = express();
 var Race;
 var Waypoint;
@@ -53,8 +56,21 @@ function getRaces(req, res){
 		async.parallel(tasks, function(){*/
 			if(req.params.id){
 				data = data[0];
+				//TODO: GET WAYPOINTS
+				if(data.Waypoints !=null  && data.Waypoints.length> 0){
+					fetchWaypoints(res,data);
+				}
+				/*res.render('races.html', {
+		            race : data // get the user out of session and pass to template
+		        });*/
 			}
-			res.json(data);
+			else {
+				//res.json(data);
+				res.render('races.html', {
+		            races : data // get the user out of session and pass to template
+		        });
+			}
+			
 		/*});*/
 	});
 }
