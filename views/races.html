@@ -13,9 +13,9 @@
 	<% if (races) { %>
 		<% for(var i=0; i<races.length; i++) {%>
 	   		<p>  
-	            <strong>Name</strong>: <a href="/races/<%= races[i]._id%>"> <%= races[i].Name %> </a><br>
+	            <strong>Race naam</strong>: <a href="/races/<%= races[i]._id%>"> <%= races[i].name %> </a><br>
 	            <strong>Id</strong>: <%= races[i]._id %><br>
-	            <strong>Description</strong>: <%= races[i].Description %>
+	            <strong>Omschrijving</strong>: <%= races[i].description %>
 	        </p>
 		<% } %>
     <% } else { %>

@@ -11,18 +11,18 @@ function fillTestRaces(callback){
 		// Vul hier je testdata voor boeken in 
 		// {}, {}, {}
 		{
-			Name: 'Test race 1',
-			Description: 'Our First Race', 
-			Start: new Date(1,8,2014), 
-			End: new Date(3,8,2014),
-			Waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']	
+			name: 'Test race 1',
+			description: 'Our First Race', 
+			start: new Date(1,8,2014), 
+			end: new Date(3,8,2014),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']	
 		},
 		{
-			Name: 'Test race 2',
-			Description: 'Our Second Race', 
-			Start: new Date(1,8,2014), 
-			End: new Date(3,8,2014),
-			Waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']
+			name: 'Test race 2',
+			description: 'Our Second Race', 
+			start: new Date(1,8,2014), 
+			end: new Date(3,8,2014),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']
 		}
 
 	];

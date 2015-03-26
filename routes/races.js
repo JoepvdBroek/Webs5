@@ -16,20 +16,25 @@ function getWaypointById(id,callback){
 function fetchWaypoints(res,data){
 	var asyncTasks = [];
 	console.log("has WayPoints");
-	_.each(data.Waypoints,function(waypoint){
+	_.each(data.waypoints,function(waypoint){
 		console.log(waypoint);
 		asyncTasks.push(function(callback){
 			request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint+"&key="+configAuth.googleAuth.APIKey,callback)
 		});
 	});
 	async.parallel(asyncTasks, function(err,results){
-	  if(err){ return handleError(req, res, 500, err); }
-	  waypoints = [];
-	  _.each(results,function(result){
+	  	if(err){ return handleError(req, res, 500, err); }
+
+	  	waypoints = [];
+	  	_.each(results,function(result){
 	  		waypoints.push(JSON.parse(result[1]).result);
-	  })
-	  data.Waypoints = waypoints;
-	  res.json(data);
+	  	})
+
+	  	data.waypoints = waypoints;
+	  	//res.json(data);
+	  	res.render('race.html', {
+	        race : data
+	    });
 	});
 }
 
@@ -57,7 +62,7 @@ function getRaces(req, res){
 			if(req.params.id){
 				data = data[0];
 				//TODO: GET WAYPOINTS
-				if(data.Waypoints !=null  && data.Waypoints.length> 0){
+				if(data.waypoints !=null  && data.waypoints.length> 0){
 					fetchWaypoints(res,data);
 				}
 				/*res.render('races.html', {
@@ -67,7 +72,7 @@ function getRaces(req, res){
 			else {
 				//res.json(data);
 				res.render('races.html', {
-		            races : data // get the user out of session and pass to template
+		            races : data
 		        });
 			}
 			
