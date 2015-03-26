@@ -19,6 +19,29 @@ mongoose.connect(configDB.url); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
+// Models
+require('./app/models/waypoint')(mongoose);
+//require('./models/user')(mongoose);
+require('./app/models/race')(mongoose);
+require('./app/models/fillTestData')(mongoose);
+// /Models
+
+function handleError(req, res, statusCode, message){
+    console.log();
+    console.log('-------- Error handled --------');
+    console.log('Request Params: ' + JSON.stringify(req.params));
+    console.log('Request Body: ' + JSON.stringify(req.body));
+    console.log('Response sent: Statuscode ' + statusCode + ', Message "' + message + '"');
+    console.log('-------- /Error handled --------');
+    res.status(statusCode);
+    res.json(message);
+};
+
+//Routes
+var routes = require('./routes/index');
+var waypoints = require('./routes/waypoints')(handleError);
+var races = require('./routes/races')(mongoose, handleError);
+
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
@@ -36,6 +59,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+app.use('/races', races);
+app.use('/waypoints', waypoints);
 
 // launch ======================================================================
 app.listen(port);
