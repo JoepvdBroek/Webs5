@@ -13,10 +13,10 @@ function getWaypointById(id,callback){
 	https.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+id+"&key="+configAuth.googleAuth.APIKey,callback);
 }
 
-function fetchWaypoints(res,data){
+function fetchWaypoints(res,waypoints){
 	var asyncTasks = [];
 	console.log("has WayPoints");
-	_.each(data.waypoints,function(waypoint){
+	_.each(waypoints,function(waypoint){
 		console.log(waypoint);
 		asyncTasks.push(function(callback){
 			request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint+"&key="+configAuth.googleAuth.APIKey,callback)
@@ -25,16 +25,13 @@ function fetchWaypoints(res,data){
 	async.parallel(asyncTasks, function(err,results){
 	  	if(err){ return handleError(req, res, 500, err); }
 
-	  	waypoints = [];
+	  	Waypoints = [];
 	  	_.each(results,function(result){
-	  		waypoints.push(JSON.parse(result[1]).result);
-	  	})
+	  		Waypoints.push(JSON.parse(result[1]).result);
+	  	});
 
-	  	data.waypoints = waypoints;
-	  	//res.json(data);
-	  	res.render('race.html', {
-	        race : data
-	    });
+	  	waypoints = Waypoints;
+	  	res.json(waypoints);
 	});
 }
 
@@ -49,18 +46,14 @@ function getRaces(req, res){
 		
 		if(req.params.id){
 			data = data[0];
-			if(data.waypoints !=null  && data.waypoints.length> 0){
-				fetchWaypoints(res,data);
-			} else {
-				res.render('race.html', {
-			        race : data
-			    });
-			}
+			// if(data.waypoints !=null  && data.waypoints.length> 0){
+			// 	fetchWaypoints(res,data);
+			// } else {
+				res.json(data);
+			//}
 		}
 		else {
-			res.render('races.html', {
-	            races : data
-	        });
+			res.json(data);
 		}
 	});
 }
@@ -118,8 +111,11 @@ function getWaypoints(req, res){
 	Race.findById(req.params.id)
 		.exec(function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
-			fetchWaypoints(res,data);
-			res.json(data);
+			if(data.waypoints !=null  && data.waypoints.length> 0){
+				fetchWaypoints(res,data.waypoints);
+			} else {
+				res.json(data);
+			}
 		});
 }
 
@@ -142,7 +138,7 @@ function addWaypoint(req, res){
 
 function deleteWaypoint(req, res){
 	Race.findById(req.params.id, function(err, race){
-		var waypoint = race.Waypoints.indexOf(req.params.waypointId);
+		var waypoint = race.waypoints.indexOf(req.params.waypointId);
 		if(waypoint >= 0){
 			race.waypoints.splice(waypoint, 1);
 			race.save(function(err){
@@ -151,6 +147,61 @@ function deleteWaypoint(req, res){
 			});
 		}else{
 			return handleError(req, res, 304, "No Waypoint found");
+		}
+	});
+}
+
+function addParticipant(req, res){
+	participant = req.body.user;
+	Race.findById(req.params.id, function(err, race){
+		if(err){ return handleError(req, res, 500, err); }
+		if(_.contains(race.participants,participant)){ return handleError(req, res, 304, "Participant already enroled"); }
+		race.participants.push(participant);
+		race.save(function(err,race){
+			if(err){ return handleError(req, res, 500, err); }
+				res.json(race);
+			})
+	});
+}
+
+/*tags: [{
+		participantId:{type:String,required:true},
+		waypointId:{type:String,required:true},
+		added_at:{ type: Date, default: Date.now ,required:true}
+	}]*/
+
+function addRaceTag(req, res){
+	participant = req.body.user;
+	waypoint = req.body.waypointId;
+	Race.findById(req.params.id, function(err, race){
+		if(err){ return handleError(req, res, 500, err); }
+		//TODO check of tag al bestaat
+		if(_.contains(race.participants,participant)){ 
+		tag = { participantId: participant, waypointId: waypoint };
+		race.tags.push(tag);
+		race.save(function(err,race){
+			if(err){ return handleError(req, res, 500, err); }
+				res.json(race);
+			})
+		}
+		else {
+			return handleError(req, res, 304, "Users needs to enroll first");
+		}
+		
+	});
+}
+
+function deleteParticipant(req, res){
+	Race.findById(req.params.id, function(err, race){
+		var participant = race.participants.indexOf(req.params.participantId);
+		if(participant >= 0){
+			race.participants.splice(waypoint, 1);
+			race.save(function(err){
+				if(err){ return handleError(req, res, 500, err); }
+				res.json("Participants removed");
+			});
+		}else{
+			return handleError(req, res, 304, "No Participant found");
 		}
 	});
 }
@@ -167,13 +218,22 @@ router.route('/:id')
 	.put(editRace)
 	.delete(deleteRace);
 
+router.route('/:id/tags')
+		.put(addRaceTag);
+
 router.route('/:id/waypoints')
 	.get(getWaypoints)
 	.put(addWaypoint);
 
-/*router.route('/:id/waypoints/:waypointId')
-	.delete(role.can('delete race waypoints'),deleteWaypoint);
-	*/
+router.route('/:id/waypoints/:waypointId')
+	.delete(deleteWaypoint);
+
+router.route('/:id/participants')
+	.put(addParticipant);
+
+router.route('/:id/participants/participantId')
+	.delete(deleteParticipant);
+	
 
 // Export
 module.exports = function (mongoose, errCallback){
