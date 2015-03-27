@@ -195,7 +195,7 @@ function deleteParticipant(req, res){
 	Race.findById(req.params.id, function(err, race){
 		var participant = race.participants.indexOf(req.params.participantId);
 		if(participant >= 0){
-			race.participants.splice(waypoint, 1);
+			race.participants.splice(participant, 1);
 			race.save(function(err){
 				if(err){ return handleError(req, res, 500, err); }
 				res.json("Participants removed");
@@ -231,7 +231,7 @@ router.route('/:id/waypoints/:waypointId')
 router.route('/:id/participants')
 	.put(addParticipant);
 
-router.route('/:id/participants/participantId')
+router.route('/:id/participants/:participantId')
 	.delete(deleteParticipant);
 	
 
