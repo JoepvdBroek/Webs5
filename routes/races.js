@@ -47,36 +47,21 @@ function getRaces(req, res){
 	Race.find(query).lean().exec(function(err, data){
 		if(err){ return handleError(req, res, 500, err.message); }
 		
-		/*var tasks = [];
-		data.forEach(function(item){
-			// Alle taken die uitgevoerd moeten worden stoppen we in een array.
-			tasks.push(function(callback){
-				Teacher.findByCourse(item._id, function(err, teachers){ 
-					item.teachers = teachers; 
-					callback();
-				});
-			});
-		});
-
-		async.parallel(tasks, function(){*/
-			if(req.params.id){
-				data = data[0];
-				//TODO: GET WAYPOINTS
-				if(data.waypoints !=null  && data.waypoints.length> 0){
-					fetchWaypoints(res,data);
-				}
-				/*res.render('races.html', {
-		            race : data // get the user out of session and pass to template
-		        });*/
+		if(req.params.id){
+			data = data[0];
+			if(data.waypoints !=null  && data.waypoints.length> 0){
+				fetchWaypoints(res,data);
+			} else {
+				res.render('race.html', {
+			        race : data
+			    });
 			}
-			else {
-				//res.json(data);
-				res.render('races.html', {
-		            races : data
-		        });
-			}
-			
-		/*});*/
+		}
+		else {
+			res.render('races.html', {
+	            races : data
+	        });
+		}
 	});
 }
 
@@ -129,6 +114,48 @@ function deleteRace(req,res){
     })
 }
 
+function getWaypoints(req, res){
+	Race.findById(req.params.id)
+		.exec(function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			fetchWaypoints(res,data);
+			res.json(data);
+		});
+}
+
+function addWaypoint(req, res){
+	Waypoint.createIfNotExists(Waypoint,req.body, function(waypoint){
+		Race.findById(req.params.id, function(err, race){
+			if(err){ return handleError(req, res, 500, err); }
+			if(_.contains(race.Waypoints,waypoint._id)){ return handleError(req, res, 304, "Waypoint already exists"); }
+			race.waypoints.push(waypoint._id);
+			race.save(function(err,race){
+				if(err){ return handleError(req, res, 500, err); }
+				request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint._id+"&key="+configAuth.googleAuth.APIKey,function(err,result){
+					data = (JSON.parse(result.body).result)
+					res.json(data);
+				})
+			});
+		});
+	});
+}
+
+function deleteWaypoint(req, res){
+	Race.findById(req.params.id, function(err, race){
+		var waypoint = race.Waypoints.indexOf(req.params.waypointId);
+		if(waypoint >= 0){
+			race.waypoints.splice(waypoint, 1);
+			race.save(function(err){
+				if(err){ return handleError(req, res, 500, err); }
+				res.json("Waypoint deleted");
+			});
+		}else{
+			return handleError(req, res, 304, "No Waypoint found");
+		}
+	});
+}
+
+
 
 // Routing
 router.route('/')
@@ -140,12 +167,13 @@ router.route('/:id')
 	.put(editRace)
 	.delete(deleteRace);
 
-/*router.route('/:id/waypoints')
+router.route('/:id/waypoints')
 	.get(getWaypoints)
-	.put(role.can('add race waypoints'), addWaypoint);
-router.route('/:id/waypoints/:waypointId')
-	.delete(role.can('delete race waypoints'),deleteWaypoint);*/
-	
+	.put(addWaypoint);
+
+/*router.route('/:id/waypoints/:waypointId')
+	.delete(role.can('delete race waypoints'),deleteWaypoint);
+	*/
 
 // Export
 module.exports = function (mongoose, errCallback){

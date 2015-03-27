@@ -1,26 +1,134 @@
 <!doctype html>
 <html>
 <head>
-    <title>All Races</title>
+    <title>Beheer</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+   	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 </head>
 <style>
         body        { padding-top:80px; word-wrap:break-word; }
 </style>
 <body>
 <div class="container">
+
+	<button id="showbutton">Nieuwe Race</button>
+	<div id="addform">
+		<label for="name">Naam</label><br>
+		<input id="name" name="name" type="text"></input><br>
+
+		<label for="description">Omschrijving</label><br>
+		<input id="description" name="description" type="text"></input><br>
+
+		<label for="start">Start</label><br>
+		<input id="start" name="start" type="date"></input><br>
+
+		<label for="end">Eind</label><br>
+		<input id="end" name="end" type="date"></input><br><br>
+
+		<input type="submit" id="submit" value="Voeg toe"></input>
+	</div>
+
 	<% if (races) { %>
+	<table>
+		<thead>
+			<th>Naam</th>
+			<th>Startdatum</th>
+			<th>Einddatum</th>
+			<th>Acties</th>
+		</thead>
+		<tbody id="tablebody">
 		<% for(var i=0; i<races.length; i++) {%>
-	   		<p>  
-	            <strong>Race naam</strong>: <a href="/races/<%= races[i]._id%>"> <%= races[i].name %> </a><br>
-	            <strong>Id</strong>: <%= races[i]._id %><br>
-	            <strong>Omschrijving</strong>: <%= races[i].description %>
-	        </p>
+	   		<tr>
+	            <td><a href="/races/<%= races[i]._id%>"> <%= races[i].name %> </a></td>
+	            <td> <%= races[i].start %></td>
+	            <td> <%= races[i].end %></td>
+	            <td> <a href="#">Wijzig</a> | <a href="#" class="deleterace" rel="<%= races[i]._id %>">Verwijder</a></td>
+	        </tr>
 		<% } %>
+		</tbody>
+	</table>
     <% } else { %>
         <p>Momenteel geen races</p>
     <% } %>
+	
 </div>
+
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	$('#addform').hide();
+
+    	$('#showbutton').click(function(){
+    		$("#addform").slideDown( "slow" );
+    		$('#showbutton').hide();
+    	});
+
+		$('#submit').click(function(){
+			var name = $('#name').val();
+			var description = $('#description').val();
+			var start = $('#start').val();
+			var end = $('#end').val();
+
+			var newRace = { name: name, description: description, start: start, end: end};
+
+			var url = 'http://localhost:8080/races';
+
+			$.ajax({
+				url: url,
+				type:'POST',
+				dataType:'json',
+				data: newRace,
+				error:function(jqXHR,text_status,strError){
+					alert('no connection');
+				},
+				success:function(response){
+	 				console.log(response);
+	 				var html = '<tr>';
+	 				html += '<td><a href="/races/'+response._id+'">'+response.name+'</a></td>';
+	 				html += '<td>'+response.description+'</td>';
+	 				html += '<td>'+response.start+'</td>';
+	 				html += '<td>'+response.end+'</td>';
+	 				html += '<td><a href="#">Wijzig</a> | <a href="#">Verwijder</a></td>';
+	 				html += '</tr>';
+	 				$('#tablebody').append(html);
+				}
+			});
+		});
+
+		$('.deleterace').click(function(event){
+
+			event.preventDefault();
+
+			var confirmation = confirm('Bent u zeker dat u deze race wilt verwijderen?');
+
+		    // Check and make sure the user confirmed
+		    if (confirmation === true) {
+
+		        // If they did, do our delete
+		        var url = 'http://localhost:8080/races/'+$(this).attr('rel');
+				console.log(url);
+				$.ajax({
+					url: url,
+					type:'DELETE',
+					dataType:'json',
+					error:function(jqXHR,text_status,strError){
+						alert('no connection');
+					},
+					success:function(response){
+		 				location.reload();
+					}
+				});
+
+		    }
+		    else {
+		        // If they said no to the confirm, do nothing
+		        return false;
+		    }
+		});
+
+
+	});
+    </script>
 </body>
 </html>
