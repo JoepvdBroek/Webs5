@@ -19,5 +19,4 @@ module.exports = {
         'callbackURL'   : 'http://localhost:8080/auth/google/callback',
         'APIKey'        : "AIzaSyB3iuBy-u_5GxNpsdB1GLU4Wn1ORPC22so" 
     }
-
 };
