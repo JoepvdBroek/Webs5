@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:80px; word-wrap:break-word; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+
+        <div class="page-header text-center">
+            <h1><span class="fa fa-lock"></span> Beheer Pagina</h1>
+        </div>
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-12">
+            <div class="well">
+                <h3>Races</h3>
+                <table class="table">
+                    <thead>
+                        <th>Naam</th>
+                        <th>Startdatum</th>
+                        <th>Einddatum</th>
+                        <th>Acties</th>
+                    </thead>
+                    <tbody id="tablebody">
+                    
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        
+        getRaces();
+    });
+
+    function getRaces(){
+
+        var url = 'http://localhost:8080/races';
+
+        $.ajax({
+            url: url,
+            type:'GET',
+            dataType:'json',
+            error:function(jqXHR,text_status,strError){
+                alert('no connection');
+            },
+            success:function(response){
+                console.log(response);
+
+                for (i = 0; i < response.length; i++) {
+                    var html = '<tr>';
+                    html += '<td><a href="/races/'+response[i]._id+'">'+response[i].name+'</a></td>';
+                    html += '<td>'+response[i].start+'</td>';
+                    html += '<td>'+response[i].end+'</td>';
+                    html += '<td><a href="#">Wijzig</a> | <a href="#">Verwijder</a></td>';
+                    html += '</tr>';
+                    $('#tablebody').append(html);
+                }
+            }
+        });
+    }
+
+    </script>
+</body>
+</html>

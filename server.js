@@ -48,6 +48,7 @@ function handleError(req, res, statusCode, message){
 var routes = require('./routes/index');
 var waypoints = require('./routes/waypoints')(handleError);
 var races = require('./routes/races')(mongoose, handleError);
+var beheer = require('./routes/beheer');
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -68,6 +69,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 app.use('/races', races);
 app.use('/waypoints', waypoints);
+app.use('/beheer', beheer);
 
 // launch ======================================================================
 app.listen(port);
