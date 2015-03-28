@@ -7,7 +7,7 @@ var router = express.Router();
 });*/
 
 router.route('/').get(ensureAuthenticated,function(req, res) {
-    res.render('beheer.html', {
+    res.render('backend.html', {
     	title: 'Race beheer', 
         user : req.user // get the user out of session and pass to template
     });

@@ -1,6 +1,7 @@
 // set up ======================================================================
 // get all the tools we need
 var express  = require('express');
+var path = require('path');
 var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
@@ -48,12 +49,14 @@ function handleError(req, res, statusCode, message){
 var routes = require('./routes/index');
 var waypoints = require('./routes/waypoints')(handleError);
 var races = require('./routes/races')(mongoose, handleError);
-var beheer = require('./routes/beheer');
+var backend = require('./routes/backend');
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //app.set('view engine', 'ejs'); // set up ejs for templating
 app.set('views', __dirname + '/views');
@@ -69,7 +72,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 app.use('/races', races);
 app.use('/waypoints', waypoints);
-app.use('/beheer', beheer);
+app.use('/backend', backend);
 
 // launch ======================================================================
 app.listen(port);
