@@ -9,7 +9,7 @@
     </style>
 </head>
 <body>
-<div class="container">
+<div id="container" class="container">
 
     <div class="row">
 
@@ -19,7 +19,26 @@
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-12">
             <div class="well">
-                <h3>Races</h3>
+                <h3>Races <a href="#" id="addlink"><span class="fa fa-plus"> Voeg toe</a></h3>
+                <form role="form" id="addform" class="col-sm-12 well">
+                    <div class="form-group">
+                        <label for="name">Naam</label>
+                        <input id="name" name="name" class="form-control" type="text"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Omschrijving</label>
+                        <input id="description" name="description" class="form-control" type="text"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="start">Start</label>
+                        <input id="start" name="start" class="form-control" type="date"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="end">Eind</label>
+                        <input id="end" name="end" class="form-control" type="date"></input>
+                    </div>
+                    <input type="submit" id="submit" class="btn btn-default" value="Voeg toe"></input>
+                </form>
                 <table class="table">
                     <thead>
                         <th>Naam</th>
@@ -36,14 +55,39 @@
         </div>
 
     </div>
+    <div class="row" id="race">
+
+    </div>
 
 </div>
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
-        
+        $('#addform').hide();
         getRaces();
+
+        $('#addlink').on('click', function(event){
+            event.preventDefault();
+
+            //SLideDown wanneer form niet zichtbaar is, anders slideUp
+            var form = $("#addform");
+            if (form.css('display') == 'none'){
+                form.slideDown( "slow" );
+            } else {
+                form.slideUp( "slow" );
+            }
+        });
+
+        $('#submit').on('click', addRace);
+
+        $( document ).on( 'click', '#deletebutton', deleteRace);
+
+        $( document ).on( 'click', '#editbutton', editRace);
+
+        $( document ).on( 'click', '#selectrace', selectRace);
+        
+
     });
 
     function getRaces(){
@@ -58,19 +102,126 @@
                 alert('no connection');
             },
             success:function(response){
-                console.log(response);
 
                 for (i = 0; i < response.length; i++) {
                     var html = '<tr>';
-                    html += '<td><a href="/races/'+response[i]._id+'">'+response[i].name+'</a></td>';
+                    html += '<td><a href="#" id="selectrace" rel="'+response[i]._id+'">'+response[i].name+'</a></td>';
                     html += '<td>'+response[i].start+'</td>';
                     html += '<td>'+response[i].end+'</td>';
-                    html += '<td><a href="#">Wijzig</a> | <a href="#">Verwijder</a></td>';
+                    html += '<td><button id="editbutton" class="btn btn-primary" rel="'+response[i]._id+'">Wijzig</button> <button id="deletebutton" class="btn btn-danger" rel="'+response[i]._id+'">Verwijder</button></td>';
                     html += '</tr>';
                     $('#tablebody').append(html);
                 }
             }
         });
+    }
+
+    function addRace(){
+        var name = $('#name').val();
+        var description = $('#description').val();
+        var start = $('#start').val();
+        var end = $('#end').val();
+
+        var newRace = { name: name, description: description, start: start, end: end};
+
+        var url = 'http://localhost:8080/races';
+
+        $.ajax({
+            url: url,
+            type:'POST',
+            dataType:'json',
+            data: newRace,
+            error:function(jqXHR,text_status,strError){
+                alert('no connection');
+            },
+            success:function(response){
+                var html = '<tr>';
+                html += '<td><a href="#" id="selectrace" rel="'+response[i]._id+'">'+response.name+'</a></td>';
+                html += '<td>'+response.start+'</td>';
+                html += '<td>'+response.end+'</td>';
+                html += '<td><button id="editbutton" class="btn btn-primary" rel="'+response[i]._id+'">Wijzig</button> <button id="deletebutton" class="btn btn-danger" rel="'+response[i]._id+'">Verwijder</button></td>';
+                html += '</tr>';
+                $('#tablebody').append(html);
+
+                $("#addform").slideUp( "slow" );
+            }
+        });
+    }
+
+    function deleteRace(){
+        var confirmation = confirm('Bent u zeker dat u deze race wilt verwijderen?');
+
+        // Check and make sure the user confirmed
+        if (confirmation === true) {
+
+            // If they did, do our delete
+            var url = 'http://localhost:8080/races/'+$(this).attr('rel');
+
+            $.ajax({
+                url: url,
+                type:'DELETE',
+                dataType:'json',
+                error:function(jqXHR,text_status,strError){
+                    alert('no connection');
+                },
+                success:function(response){
+                    location.reload();
+                }
+            });
+
+        }
+        else {
+            // If they said no to the confirm, do nothing
+            return false;
+        }
+    }
+
+    function editRace(){
+        //TODO open form met gegevens en submit (races/:id).put
+    }
+
+    function selectRace(event){
+        event.preventDefault();
+
+        var url = 'http://localhost:8080/races/'+$(this).attr('rel');
+
+        $.ajax({
+            url: url,
+            type:'GET',
+            dataType:'json',
+            error:function(jqXHR,text_status,strError){
+                alert('no connection');
+            },
+            success:function(response){
+                $("#race").empty();
+                var html = '<div class="col-sm-8">';
+                    html += '<div class="well">';
+                        html += '<h3>Waypoints</h3>';
+                        html += '<ul class="list-group">';
+                        for (i = 0; i < response.waypoints.length; i++) {
+                            html += '<li class="list-group-item">'+response.waypoints[i].name+'</li>'; 
+                        }
+                        html += '</ul>';
+                    html += '</div>';
+                html += '</div>';
+
+                html += '<div class="col-sm-4">';
+                    html += '<div class="well">';
+                        html += '<h3>Participants</h3>';
+                        html += '<ul class="list-group">';
+                        for (i = 0; i < response.participants.length; i++) {
+                            html += '<li class="list-group-item">'+response.participants[i]+'</li>'; 
+                        }
+                        html += '</ul>';
+                    html += '</div>';
+                html += '</div>';
+
+                html += '</div>';
+                $("#race").append(html);
+            }
+        });
+
+        
     }
 
     </script>

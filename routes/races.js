@@ -13,10 +13,10 @@ function getWaypointById(id,callback){
 	https.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+id+"&key="+configAuth.googleAuth.APIKey,callback);
 }
 
-function fetchWaypoints(res,waypoints){
+function fetchWaypoints(res,data){
 	var asyncTasks = [];
 	console.log("has WayPoints");
-	_.each(waypoints,function(waypoint){
+	_.each(data.waypoints,function(waypoint){
 		console.log(waypoint);
 		asyncTasks.push(function(callback){
 			request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint+"&key="+configAuth.googleAuth.APIKey,callback)
@@ -30,8 +30,8 @@ function fetchWaypoints(res,waypoints){
 	  		Waypoints.push(JSON.parse(result[1]).result);
 	  	});
 
-	  	waypoints = Waypoints;
-	  	res.json(waypoints);
+	  	data.waypoints = Waypoints;
+	  	res.json(data);
 	});
 }
 
@@ -46,11 +46,11 @@ function getRaces(req, res){
 		
 		if(req.params.id){
 			data = data[0];
-			// if(data.waypoints !=null  && data.waypoints.length> 0){
-			// 	fetchWaypoints(res,data);
-			// } else {
+			if(data.waypoints !=null  && data.waypoints.length> 0){
+			 	fetchWaypoints(res,data);
+			} else {
 				res.json(data);
-			//}
+			}
 		}
 		else {
 			res.json(data);
@@ -112,7 +112,7 @@ function getWaypoints(req, res){
 		.exec(function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			if(data.waypoints !=null  && data.waypoints.length> 0){
-				fetchWaypoints(res,data.waypoints);
+				fetchWaypoints(res,data);
 			} else {
 				res.json(data);
 			}
@@ -160,7 +160,7 @@ function addParticipant(req, res){
 		race.save(function(err,race){
 			if(err){ return handleError(req, res, 500, err); }
 				res.json(race);
-			})
+			});
 	});
 }
 
@@ -182,7 +182,7 @@ function addRaceTag(req, res){
 		race.save(function(err,race){
 			if(err){ return handleError(req, res, 500, err); }
 				res.json(race);
-			})
+			});
 		}
 		else {
 			return handleError(req, res, 304, "Users needs to enroll first");
@@ -219,7 +219,7 @@ router.route('/:id')
 	.delete(deleteRace);
 
 router.route('/:id/tags')
-		.put(addRaceTag);
+	.put(addRaceTag);
 
 router.route('/:id/waypoints')
 	.get(getWaypoints)
