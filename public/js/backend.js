@@ -1,7 +1,9 @@
 var currentRace = '';
+var currentEditRace = '';
 
 $(document).ready(function(){
     $('#addraceform').hide();
+    $('#updateraceform').hide();
     $('#race').hide();
 
     $("#addwaypointform").hide();
@@ -48,15 +50,34 @@ $(document).ready(function(){
 
     $('#submitrace').on('click', addRace);
 
+    $('#updaterace').on('click', editRace);
+
     $('#submitwaypoint').on('click', addWaypoint);
 
     $('#submitparticipant').on('click', addParticipant);
 
     $( document ).on( 'click', '#deletebutton', deleteRace);
 
-    $( document ).on( 'click', '#editbutton', editRace);
+    $( document ).on( 'click', '#editbutton', function(){
 
-    $( document ).on( 'click', '#selectrace', selectRace);   
+        var raceId = $(this).attr('rel');
+
+        //SLideDown wanneer form niet zichtbaar is, anders slideUp
+        var form = $("#updateraceform");
+        if (form.css('display') == 'none'){
+            form.slideDown( "slow" );
+            fillUpdateRaceForm(raceId);
+        } else {
+            if(currentEditRace === raceId){
+               form.slideUp( "slow" );
+               currentEditRace = '';
+            } else {
+                fillUpdateRaceForm(raceId);
+            }
+        }
+    });
+
+    $( document ).on( 'click', '#selectrace', selectRace);
 
 });
 
@@ -72,7 +93,7 @@ function getRaces(){
             alert('no connection');
         },
         success:function(response){
-
+            response = response.results;
             for (i = 0; i < response.length; i++) {
                 var html = '<tr>';
                 html += '<td><a href="#" id="selectrace" rel="'+response[i]._id+'">'+response[i].name+'</a></td>';
@@ -93,7 +114,6 @@ function addRace(){
     var end = $('#end').val();
 
     var newRace = { name: name, description: description, start: start, end: end};
-    console.log(newRace);
 
     var url = 'http://localhost:8080/races';
 
@@ -148,7 +168,29 @@ function deleteRace(){
 }
 
 function editRace(){
-    //TODO open form met gegevens en submit (races/:id).put
+    var name = $('#updatename').val();
+    var description = $('#updatedescription').val();
+    var start = $('#updatestart').val();
+    var end = $('#updateend').val();
+
+    var updateRace = { name: name, description: description, start: start, end: end};
+    console.log(updateRace);
+
+    var url = 'http://localhost:8080/races/'+currentEditRace;
+    console.log(url);
+
+    $.ajax({
+        url: url,
+        type:'PUT',
+        dataType:'json',
+        data: updateRace,
+        error:function(jqXHR,text_status,strError){
+            alert('no connection');
+        },
+        success:function(response){
+            location.reload();
+        }
+    });
 }
 
 function selectRace(event){
@@ -212,4 +254,34 @@ function addWaypoint(){
 
 function addParticipant(){
 
+}
+
+function fillUpdateRaceForm(raceId){
+
+    var url = 'http://localhost:8080/races/'+raceId;
+
+    $.ajax({
+        url: url,
+        type:'GET',
+        dataType:'json',
+        error:function(jqXHR,text_status,strError){
+            alert('no connection');
+        },
+        success:function(response){
+            var enddate = new Date(Date.parse(response.end));
+            var startdate = new Date(Date.parse(response.start));
+
+            var endday = ("0" + enddate.getDate()).slice(-2);
+            var endmonth = ("0" + (enddate.getMonth() + 1)).slice(-2);
+
+            var startday = ("0" + startdate.getDate()).slice(-2);
+            var startmonth = ("0" + (startdate.getMonth() + 1)).slice(-2);
+
+            currentEditRace = raceId;
+            $('#updatename').val(response.name);
+            $('#updatedescription').val(response.description);
+            $('#updatestart').val(startdate.getFullYear()+'-'+startmonth+'-'+startday);
+            $('#updateend').val(enddate.getFullYear()+'-'+endmonth+'-'+endday);
+        }
+    });
 }

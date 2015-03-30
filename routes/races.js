@@ -3,6 +3,7 @@ var _ = require('underscore');
 var async = require('async');
 var https = require('https');
 var request = require('request');
+var mongoose = require('mongoose');
 var router = express();
 var Race;
 var Waypoint;
@@ -13,7 +14,7 @@ function getWaypointById(id,callback){
 	https.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+id+"&key="+configAuth.googleAuth.APIKey,callback);
 }
 
-function fetchWaypoints(res,data){
+function fetchWaypoints(req, res, data){
 	var asyncTasks = [];
 	console.log("has WayPoints");
 	_.each(data.waypoints,function(waypoint){
@@ -35,7 +36,7 @@ function fetchWaypoints(res,data){
 	});
 }
 
-function getRaces(req, res){
+/*function getRaces(req, res){
 	var query = {};
 	if(req.params.id){
 		query._id = req.params.id.toLowerCase();
@@ -56,6 +57,61 @@ function getRaces(req, res){
 			res.json(data);
 		}
 	});
+}*/
+
+function getRaces(req, res){
+	var query = {};
+	var per_page = 5;
+	var page = 1;
+	if(req.params.id){
+		console.log(req.params.id);
+		query._id = req.params.id;
+		result = Race.find(query);/*.lean().exec(function(err, data){*/
+		result.populate('Participants', '-__v -roles -google.email -google.id -google.token -local.password').lean().exec(function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+
+			if(data[0].waypoints !=null  && data[0].waypoints.length> 0){
+				fetchWaypoints(req,res,data[0]);
+			} else{
+				return res.json(data[0]);
+			}
+		});
+	}else{
+		start = null;
+		if(req.query.start !=null){
+			startQuery = req.query.start.split("-");
+			start = new Date(startQuery[0],startQuery[1]-1,startQuery[2]);
+			query.start = {"$gte" : start};
+		}
+		if(req.query.eind !=null){
+			endQuery = req.query.eind.split("-");
+			end = new Date(endQuery[0],endQuery[1]-1,endQuery[2]);
+			query.ende = {"$lte" : eind};
+		}
+		if(req.query.user != null){
+			query.Participants = {"$in" : [req.query.user]};
+		}
+		if(req.query.per_page != null){
+			parse_per_page = parseInt(req.query.per_page);
+			if(parse_per_page > 100 || parse_per_page < 1){return handleError(req, res, 400 , "Paging between 1 and 100");}
+			per_page = parse_per_page;
+		}
+		if(req.query.page != null){
+			parse_page = parseInt(req.query.page);
+			if(parse_page < 1){return handleError(req, res, 400 , "Page bigger than 0");}
+			page = parse_page;
+		}
+		Race.paginate(query,page,per_page,function(err,pageCount,results,itemCount){
+			if(err){ return handleError(req, res, 500, err); }
+			data = {
+				results:results,
+				pages:pageCount,
+				page:page,
+				totalItems:itemCount
+			}
+			res.json(data);
+		})
+	}
 }
 
 function addRace(req, res){
@@ -164,25 +220,19 @@ function addParticipant(req, res){
 	});
 }
 
-/*tags: [{
-		participantId:{type:String,required:true},
-		waypointId:{type:String,required:true},
-		added_at:{ type: Date, default: Date.now ,required:true}
-	}]*/
-
 function addRaceTag(req, res){
 	participant = req.body.user;
-	waypoint = req.body.waypointId;
+	waypoint = req.body.waypoint;
 	Race.findById(req.params.id, function(err, race){
 		if(err){ return handleError(req, res, 500, err); }
 		//TODO check of tag al bestaat
 		if(_.contains(race.participants,participant)){ 
-		tag = { participantId: participant, waypointId: waypoint };
-		race.tags.push(tag);
-		race.save(function(err,race){
-			if(err){ return handleError(req, res, 500, err); }
-				res.json(race);
-			});
+			tag = { participantId: participant, waypointId: waypoint };
+			race.tags.push(tag);
+			race.save(function(err,race){
+				if(err){ return handleError(req, res, 500, err); }
+					res.json(race);
+				});
 		}
 		else {
 			return handleError(req, res, 304, "Users needs to enroll first");

@@ -1,3 +1,5 @@
+var mongoosePaginate = require('mongoose-paginate');
+
 var init = function(mongoose){
 
 	console.log('Initializing race model module');
@@ -28,7 +30,7 @@ var init = function(mongoose){
 	    }
 	    next();
 	});
-	//raceSchema.plugin(mongoosePaginate);
+	raceSchema.plugin(mongoosePaginate);
 	
 
 	// methods ======================

@@ -15,14 +15,88 @@ function fillTestRaces(callback){
 			description: 'Our First Race', 
 			start: new Date(2014, 1, 8), 
 			end: new Date(2014, 3, 8),
-			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']	
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
 		},
 		{
 			name: 'Test race 2',
 			description: 'Our Second Race', 
 			start: new Date(2014, 2, 8), 
 			end: new Date(2014, 3, 8),
-			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 3',
+			description: 'Our Third Race', 
+			start: new Date(2014, 1, 8), 
+			end: new Date(2014, 3, 8),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 4',
+			description: 'Our Fourth Race', 
+			start: new Date(2014, 4, 4), 
+			end: new Date(2014, 5, 8),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 5',
+			description: 'Our Fifth Race', 
+			start: new Date(2014, 2, 2), 
+			end: new Date(2014, 3, 6),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 6',
+			description: 'Our Sixth Race', 
+			start: new Date(2014, 4, 16), 
+			end: new Date(2014, 5, 20),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 7',
+			description: 'Our Seventh Race', 
+			start: new Date(2014, 2, 15), 
+			end: new Date(2014, 3, 20),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 8',
+			description: 'Our Eigth Race', 
+			start: new Date(2014, 5, 20), 
+			end: new Date(2014, 6, 22),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 9',
+			description: 'Our Ninth Race', 
+			start: new Date(2014, 7, 18), 
+			end: new Date(2014, 8, 28),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 10',
+			description: 'Our Tenth Race', 
+			start: new Date(2014, 9, 5), 
+			end: new Date(2014, 10, 6),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
+		},
+		{
+			name: 'Test race 11',
+			description: 'Our Eleventh Race', 
+			start: new Date(2014, 11, 15), 
+			end: new Date(2014, 12, 16),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb']
 		}
 
 	];
