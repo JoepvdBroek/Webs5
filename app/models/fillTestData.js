@@ -13,15 +13,15 @@ function fillTestRaces(callback){
 		{
 			name: 'Test race 1',
 			description: 'Our First Race', 
-			start: new Date(1,8,2014), 
-			end: new Date(3,8,2014),
+			start: new Date(2014, 1, 8), 
+			end: new Date(2014, 3, 8),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']	
 		},
 		{
 			name: 'Test race 2',
 			description: 'Our Second Race', 
-			start: new Date(1,8,2014), 
-			end: new Date(3,8,2014),
+			start: new Date(2014, 2, 8), 
+			end: new Date(2014, 3, 8),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU']
 		}
 

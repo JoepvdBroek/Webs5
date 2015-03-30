@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:80px; word-wrap:break-word; }
+    </style>
+</head>
+<body>
+<div id="container" class="container">
+
+    <div class="row">
+
+        <div class="page-header text-center">
+            <h1><span class="fa fa-lock"></span> Beheer Pagina</h1>
+        </div>
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-12">
+            <div class="well">
+                <h3>Races <a href="#" id="addracelink"><span class="fa fa-plus"> Voeg toe</a></h3>
+                <div role="form" id="addraceform" class="well">
+                    <div class="form-group">
+                        <label for="name">Naam</label>
+                        <input id="name" name="name" class="form-control" type="text"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Omschrijving</label>
+                        <input id="description" name="description" class="form-control" type="text"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="start">Start</label>
+                        <input id="start" name="start" class="form-control" type="date"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="end">Eind</label>
+                        <input id="end" name="end" class="form-control" type="date"></input>
+                    </div>
+                    <button id="submitrace" class="btn btn-default">Voeg toe</button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <th>Naam</th>
+                        <th>Startdatum</th>
+                        <th>Einddatum</th>
+                        <th>Acties</th>
+                    </thead>
+                    <tbody id="tablebody">
+                    
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row" id="race">
+        <div class="col-sm-8">
+            <div class="well">
+                <h3>Waypoints <a href="#" id="addwaypointlink"><span class="fa fa-plus"> Voeg toe</a></h3>
+                <div role="form" id="addwaypointform" class="well">
+                    <div class="form-group">
+                        <label for="waypoint">Place_id</label>
+                        <input id="waypoint" name="waypoint" class="form-control" type="text"></input>
+                    </div>
+                    <button id="submitwaypoint" class="btn btn-default">Voeg toe</button>
+                </div>
+                <ul class="list-group" id="waypointlist">
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="well">
+                <h3>Participants <a href="#" id="addparticipantlink"><span class="fa fa-plus"> Voeg toe</a></h3>
+                <div role="form" id="addparticipantform" class="well">
+                    <div class="form-group">
+                        <label for="user">User_id</label>
+                        <input id="user" name="user" class="form-control" type="text"></input>
+                    </div>
+                    <button id="submitparticipant" class="btn btn-default" >Voeg toe</button>
+                </div>
+                <ul class="list-group" id="participantslist">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="js/backend.js"></script>
+</body>
+</html>

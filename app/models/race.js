@@ -9,10 +9,10 @@ var init = function(mongoose){
 		end: { type: Date, required: true},
 		waypoints: [{ type: String, required: true, ref: 'Waypoint'}],
 		participants: [{type:String, required: true, ref: 'User'}],
-		data: [{
-			particpantId:{type:String,required:true},
-			WaypointId:{type:String,required:true},
-			added_at:{ type: Date, default: Date.now ,required:true}
+		tags: [{
+			participantId:{ type:String, required:true },
+			waypointId:{ type:String, required:true },
+			added_at:{ type: Date, default: Date.now ,required:true }
 		}]
 	},
 	{
@@ -21,7 +21,6 @@ var init = function(mongoose){
 	});
 
 	raceSchema.pre('validate', function (next) {
-		//var one_day=1000*60*60*24;
 		start = new Date(this.start);
 		end = new Date(this.end);
 	  	if (end < start) {

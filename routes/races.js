@@ -25,16 +25,13 @@ function fetchWaypoints(res,data){
 	async.parallel(asyncTasks, function(err,results){
 	  	if(err){ return handleError(req, res, 500, err); }
 
-	  	waypoints = [];
+	  	Waypoints = [];
 	  	_.each(results,function(result){
-	  		waypoints.push(JSON.parse(result[1]).result);
-	  	})
+	  		Waypoints.push(JSON.parse(result[1]).result);
+	  	});
 
-	  	data.waypoints = waypoints;
-	  	//res.json(data);
-	  	res.render('race.html', {
-	        race : data
-	    });
+	  	data.waypoints = Waypoints;
+	  	res.json(data);
 	});
 }
 
@@ -47,36 +44,17 @@ function getRaces(req, res){
 	Race.find(query).lean().exec(function(err, data){
 		if(err){ return handleError(req, res, 500, err.message); }
 		
-		/*var tasks = [];
-		data.forEach(function(item){
-			// Alle taken die uitgevoerd moeten worden stoppen we in een array.
-			tasks.push(function(callback){
-				Teacher.findByCourse(item._id, function(err, teachers){ 
-					item.teachers = teachers; 
-					callback();
-				});
-			});
-		});
-
-		async.parallel(tasks, function(){*/
-			if(req.params.id){
-				data = data[0];
-				//TODO: GET WAYPOINTS
-				if(data.waypoints !=null  && data.waypoints.length> 0){
-					fetchWaypoints(res,data);
-				}
-				/*res.render('races.html', {
-		            race : data // get the user out of session and pass to template
-		        });*/
+		if(req.params.id){
+			data = data[0];
+			if(data.waypoints !=null  && data.waypoints.length> 0){
+			 	fetchWaypoints(res,data);
+			} else {
+				res.json(data);
 			}
-			else {
-				//res.json(data);
-				res.render('races.html', {
-		            races : data
-		        });
-			}
-			
-		/*});*/
+		}
+		else {
+			res.json(data);
+		}
 	});
 }
 
@@ -129,6 +107,106 @@ function deleteRace(req,res){
     })
 }
 
+function getWaypoints(req, res){
+	Race.findById(req.params.id)
+		.exec(function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			if(data.waypoints !=null  && data.waypoints.length> 0){
+				fetchWaypoints(res,data);
+			} else {
+				res.json(data);
+			}
+		});
+}
+
+function addWaypoint(req, res){
+	Waypoint.createIfNotExists(Waypoint,req.body, function(waypoint){
+		Race.findById(req.params.id, function(err, race){
+			if(err){ return handleError(req, res, 500, err); }
+			if(_.contains(race.Waypoints,waypoint._id)){ return handleError(req, res, 304, "Waypoint already exists"); }
+			race.waypoints.push(waypoint._id);
+			race.save(function(err,race){
+				if(err){ return handleError(req, res, 500, err); }
+				request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint._id+"&key="+configAuth.googleAuth.APIKey,function(err,result){
+					data = (JSON.parse(result.body).result)
+					res.json(data);
+				})
+			});
+		});
+	});
+}
+
+function deleteWaypoint(req, res){
+	Race.findById(req.params.id, function(err, race){
+		var waypoint = race.waypoints.indexOf(req.params.waypointId);
+		if(waypoint >= 0){
+			race.waypoints.splice(waypoint, 1);
+			race.save(function(err){
+				if(err){ return handleError(req, res, 500, err); }
+				res.json("Waypoint deleted");
+			});
+		}else{
+			return handleError(req, res, 304, "No Waypoint found");
+		}
+	});
+}
+
+function addParticipant(req, res){
+	participant = req.body.user;
+	Race.findById(req.params.id, function(err, race){
+		if(err){ return handleError(req, res, 500, err); }
+		if(_.contains(race.participants,participant)){ return handleError(req, res, 304, "Participant already enroled"); }
+		race.participants.push(participant);
+		race.save(function(err,race){
+			if(err){ return handleError(req, res, 500, err); }
+				res.json(race);
+			});
+	});
+}
+
+/*tags: [{
+		participantId:{type:String,required:true},
+		waypointId:{type:String,required:true},
+		added_at:{ type: Date, default: Date.now ,required:true}
+	}]*/
+
+function addRaceTag(req, res){
+	participant = req.body.user;
+	waypoint = req.body.waypointId;
+	Race.findById(req.params.id, function(err, race){
+		if(err){ return handleError(req, res, 500, err); }
+		//TODO check of tag al bestaat
+		if(_.contains(race.participants,participant)){ 
+		tag = { participantId: participant, waypointId: waypoint };
+		race.tags.push(tag);
+		race.save(function(err,race){
+			if(err){ return handleError(req, res, 500, err); }
+				res.json(race);
+			});
+		}
+		else {
+			return handleError(req, res, 304, "Users needs to enroll first");
+		}
+		
+	});
+}
+
+function deleteParticipant(req, res){
+	Race.findById(req.params.id, function(err, race){
+		var participant = race.participants.indexOf(req.params.participantId);
+		if(participant >= 0){
+			race.participants.splice(participant, 1);
+			race.save(function(err){
+				if(err){ return handleError(req, res, 500, err); }
+				res.json("Participants removed");
+			});
+		}else{
+			return handleError(req, res, 304, "No Participant found");
+		}
+	});
+}
+
+
 
 // Routing
 router.route('/')
@@ -140,11 +218,21 @@ router.route('/:id')
 	.put(editRace)
 	.delete(deleteRace);
 
-/*router.route('/:id/waypoints')
+router.route('/:id/tags')
+	.put(addRaceTag);
+
+router.route('/:id/waypoints')
 	.get(getWaypoints)
-	.put(role.can('add race waypoints'), addWaypoint);
+	.put(addWaypoint);
+
 router.route('/:id/waypoints/:waypointId')
-	.delete(role.can('delete race waypoints'),deleteWaypoint);*/
+	.delete(deleteWaypoint);
+
+router.route('/:id/participants')
+	.put(addParticipant);
+
+router.route('/:id/participants/:participantId')
+	.delete(deleteParticipant);
 	
 
 // Export
