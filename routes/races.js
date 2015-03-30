@@ -61,7 +61,7 @@ function fetchWaypoints(req, res, data){
 
 function getRaces(req, res){
 	var query = {};
-	var per_page = 5;
+	var per_page = 10;
 	var page = 1;
 	if(req.params.id){
 		console.log(req.params.id);
@@ -179,6 +179,7 @@ function addWaypoint(req, res){
 	Waypoint.createIfNotExists(Waypoint,req.body, function(waypoint){
 		Race.findById(req.params.id, function(err, race){
 			if(err){ return handleError(req, res, 500, err); }
+			if(!checkDate(race.end)){ return handleError(req, res, 304, "Race expired"); }
 			if(_.contains(race.Waypoints,waypoint._id)){ return handleError(req, res, 304, "Waypoint already exists"); }
 			race.waypoints.push(waypoint._id);
 			race.save(function(err,race){
@@ -194,6 +195,7 @@ function addWaypoint(req, res){
 
 function deleteWaypoint(req, res){
 	Race.findById(req.params.id, function(err, race){
+		if(!checkDate(race.end)){ return handleError(req, res, 304, "Race expired"); }
 		var waypoint = race.waypoints.indexOf(req.params.waypointId);
 		if(waypoint >= 0){
 			race.waypoints.splice(waypoint, 1);
@@ -212,6 +214,7 @@ function addParticipant(req, res){
 	Race.findById(req.params.id, function(err, race){
 		if(err){ return handleError(req, res, 500, err); }
 		if(_.contains(race.participants,participant)){ return handleError(req, res, 304, "Participant already enroled"); }
+		if(!checkDate(race.end)){ return handleError(req, res, 304, "Race expired"); }
 		race.participants.push(participant);
 		race.save(function(err,race){
 			if(err){ return handleError(req, res, 500, err); }
@@ -225,14 +228,15 @@ function addRaceTag(req, res){
 	waypoint = req.body.waypoint;
 	Race.findById(req.params.id, function(err, race){
 		if(err){ return handleError(req, res, 500, err); }
+		if(!checkDate(race.end)){ return handleError(req, res, 304, "Race expired"); }
 		//TODO check of tag al bestaat
 		if(_.contains(race.participants,participant)){ 
-			tag = { participantId: participant, waypointId: waypoint };
-			race.tags.push(tag);
-			race.save(function(err,race){
-				if(err){ return handleError(req, res, 500, err); }
-					res.json(race);
-				});
+		tag = { participantId: participant, waypointId: waypoint };
+		race.tags.push(tag);
+		race.save(function(err,race){
+			if(err){ return handleError(req, res, 500, err); }
+				res.json(race);
+			});
 		}
 		else {
 			return handleError(req, res, 304, "Users needs to enroll first");
@@ -244,6 +248,7 @@ function addRaceTag(req, res){
 function deleteParticipant(req, res){
 	Race.findById(req.params.id, function(err, race){
 		var participant = race.participants.indexOf(req.params.participantId);
+		if(!checkDate(race.end)){ return handleError(req, res, 304, "Race expired"); }
 		if(participant >= 0){
 			race.participants.splice(participant, 1);
 			race.save(function(err){
@@ -254,6 +259,72 @@ function deleteParticipant(req, res){
 			return handleError(req, res, 304, "No Participant found");
 		}
 	});
+}
+
+/*returnJSON = 
+[
+	{
+		participantId : '55141859ddef6414234860bb',
+		totalTime : LatestTime - earliestTime 
+	}
+]*/
+
+function getResults(req, res){
+	var returnJson = [];
+	var one_day=1000*60*60*24;
+
+	Race.findById(req.params.id, function(err, race){
+		if(err){ return handleError(req, res, 500, err); }
+		if(checkDate(race.end)){ return handleError(req, res, 304, "Race is not done yet"); }
+		var tags = race.tags;
+		//TODO: voor elke deelnemer 2x door de tags loopen. 1x voor vroegste datum, 1x voor de laatste datum
+		for (i = 0; i < race.participants.length; i++) {
+			console.log('participant');
+			var userId = race.participants[i];
+			var earliest = null;
+			var latest = null;
+			var current = null;
+			for (x = 0; x < tags.length; x++) {
+				if(tags[x].participantId === userId){
+					if(current != null){
+						if(tags[x].added_at < current){
+							current = tags[x].added_at;
+						}
+					} else {
+						current = tags[x].added_at;
+					}
+				}
+				
+			}
+			earliest = current;
+			current = null;
+			for (y = 0; y < tags.length; y++) {
+				if(tags[y].participantId === userId){
+					if(current != null){
+						if(tags[y].added_at > current){
+							current = tags[y].added_at;
+						}
+					} else {
+						current = tags[y].added_at;
+					}
+				}
+			}
+			latest = current;
+			totalTime = (latest - earliest)/one_day;
+			//console.log('earliest:'+ earliest + '- latest:'+ latest + '- totaltime:' + totalTime);
+			returnJson.push({ participantId : userId , totalTime : totalTime });
+        }
+
+        res.json(returnJson);
+	});
+}
+
+function checkDate(enddate){
+	var now = new Date();
+  	if ((now - enddate) > 0 ) {
+    	return false;
+    }
+    return true;
 }
 
 
@@ -274,6 +345,9 @@ router.route('/:id/tags')
 router.route('/:id/waypoints')
 	.get(getWaypoints)
 	.put(addWaypoint);
+
+router.route('/:id/results')
+	.get(getResults);
 
 router.route('/:id/waypoints/:waypointId')
 	.delete(deleteWaypoint);

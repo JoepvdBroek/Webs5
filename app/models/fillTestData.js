@@ -16,7 +16,39 @@ function fillTestRaces(callback){
 			start: new Date(2014, 1, 8), 
 			end: new Date(2014, 3, 8),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51'],
+			tags: [
+				{
+					participantId: '55141859ddef6414234860bb',
+					waypointId: 'ChIJDQwJnPG-xkcRvs1Rkmofx_0',
+					added_at: new Date(2014, 1, 10)
+				},
+				{
+					participantId: '55141859ddef6414234860bb',
+					waypointId: 'ChIJmVfSm_G-xkcREPb8HdEX9YY',
+					added_at: new Date(2014, 1, 11)
+				},
+				{
+					participantId: '55141859ddef6414234860bb',
+					waypointId: 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU',
+					added_at: new Date(2014, 1, 12)
+				},
+				{
+					participantId: '55128141e4b629ecc2e28e51',
+					waypointId: 'ChIJDQwJnPG-xkcRvs1Rkmofx_0',
+					added_at: new Date(2014, 1, 20)
+				},
+				{
+					participantId: '55128141e4b629ecc2e28e51',
+					waypointId: 'ChIJmVfSm_G-xkcREPb8HdEX9YY',
+					added_at: new Date(2014, 1, 22)
+				},
+				{
+					participantId: '55128141e4b629ecc2e28e51',
+					waypointId: 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU',
+					added_at: new Date(2014, 1, 24)
+				}
+			]
 		},
 		{
 			name: 'Test race 2',
@@ -24,7 +56,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 2, 8), 
 			end: new Date(2014, 3, 8),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 3',
@@ -32,7 +64,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 1, 8), 
 			end: new Date(2014, 3, 8),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 4',
@@ -40,7 +72,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 4, 4), 
 			end: new Date(2014, 5, 8),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 5',
@@ -48,7 +80,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 2, 2), 
 			end: new Date(2014, 3, 6),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 6',
@@ -56,7 +88,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 4, 16), 
 			end: new Date(2014, 5, 20),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 7',
@@ -64,7 +96,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 2, 15), 
 			end: new Date(2014, 3, 20),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 8',
@@ -72,7 +104,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 5, 20), 
 			end: new Date(2014, 6, 22),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 9',
@@ -80,7 +112,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 7, 18), 
 			end: new Date(2014, 8, 28),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		},
 		{
 			name: 'Test race 10',
@@ -88,15 +120,7 @@ function fillTestRaces(callback){
 			start: new Date(2014, 9, 5), 
 			end: new Date(2014, 10, 6),
 			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
-		},
-		{
-			name: 'Test race 11',
-			description: 'Our Eleventh Race', 
-			start: new Date(2014, 11, 15), 
-			end: new Date(2014, 12, 16),
-			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
-			participants :['55141859ddef6414234860bb']
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
 		}
 
 	];
