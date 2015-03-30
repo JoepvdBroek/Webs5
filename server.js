@@ -78,7 +78,7 @@ app.use(roles.middleware());
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 app.use('/races', races);
 app.use('/waypoints', waypoints);
-app.use('/backend', backend);
+app.use('/backend', roles.can('access beheerder'), backend);
 
 // launch ======================================================================
 app.listen(port);
