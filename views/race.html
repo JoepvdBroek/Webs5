@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>Single Race</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+</head>
+<style>
+        body        { padding-top:80px; word-wrap:break-word; }
+</style>
+<body>
+<div class="container">
+	<% if (race) { %>
+		<p><strong>Race naam</strong>: <%= race.name %></p>
+		<% for(var i=0; i<race.waypoints.length; i++) {%>
+	   		<p>  
+	            <strong>Kroegnaam</strong>: <%= race.waypoints[i].name %><br>
+	            <strong>Place_Id</strong>: <%= race.waypoints[i].place_id %>
+	        </p>
+		<% } %>
+    <% } else { %>
+        <p>Geen race gevonden met meegegeven Id</p>
+    <% } %>
+</div>
+</body>
+</html>
