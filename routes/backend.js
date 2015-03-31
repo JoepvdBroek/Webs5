@@ -6,17 +6,12 @@ var router = express.Router();
   res.render('beheer.html', { title: 'Race beheer' });
 });*/
 
-router.route('/').get(ensureAuthenticated,function(req, res) {
+router.route('/').get(function(req, res) {
+	console.log("test");
     res.render('backend.html', {
     	title: 'Race beheer', 
         user : req.user // get the user out of session and pass to template
     });
 });
-
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
-}
 
 module.exports = router;
