@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\models\fillTestData.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../../prettify.css">
+
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">app\models\fillTestData.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">35.71% <small>(10 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">25% <small>(2 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">38.46% <small>(10 / 26)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/models/</a> &#187; fillTestData.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var Race, Waypoint;
+&nbsp;
+<span class="fstat-no" title="function not covered" >function saveCallback(err){</span>
+<span class="cstat-no" title="statement not covered" >	if(err){</span>
+<span class="cstat-no" title="statement not covered" >		console.log('Fill testdata failed, reason: %s', err)</span>
+	}
+};
+&nbsp;
+<span class="fstat-no" title="function not covered" >function fillTestRaces(callback){</span>
+<span class="cstat-no" title="statement not covered" >	var testData = [</span>
+		// Vul hier je testdata voor boeken in 
+		// {}, {}, {}
+		{
+			name: 'Test race 1',
+			description: 'Our First Race', 
+			start: new Date(2014, 1, 8), 
+			end: new Date(2014, 3, 8),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51'],
+			tags: [
+				{
+					participantId: '55141859ddef6414234860bb',
+					waypointId: 'ChIJDQwJnPG-xkcRvs1Rkmofx_0',
+					added_at: new Date(2014, 1, 10)
+				},
+				{
+					participantId: '55141859ddef6414234860bb',
+					waypointId: 'ChIJmVfSm_G-xkcREPb8HdEX9YY',
+					added_at: new Date(2014, 1, 11)
+				},
+				{
+					participantId: '55141859ddef6414234860bb',
+					waypointId: 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU',
+					added_at: new Date(2014, 1, 12)
+				},
+				{
+					participantId: '55128141e4b629ecc2e28e51',
+					waypointId: 'ChIJDQwJnPG-xkcRvs1Rkmofx_0',
+					added_at: new Date(2014, 1, 20)
+				},
+				{
+					participantId: '55128141e4b629ecc2e28e51',
+					waypointId: 'ChIJmVfSm_G-xkcREPb8HdEX9YY',
+					added_at: new Date(2014, 1, 22)
+				},
+				{
+					participantId: '55128141e4b629ecc2e28e51',
+					waypointId: 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU',
+					added_at: new Date(2014, 1, 24)
+				}
+			]
+		},
+		{
+			name: 'Test race 2',
+			description: 'Our Second Race', 
+			start: new Date(2014, 2, 8), 
+			end: new Date(2014, 3, 8),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 3',
+			description: 'Our Third Race', 
+			start: new Date(2014, 1, 8), 
+			end: new Date(2014, 3, 8),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 4',
+			description: 'Our Fourth Race', 
+			start: new Date(2014, 4, 4), 
+			end: new Date(2014, 5, 8),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 5',
+			description: 'Our Fifth Race', 
+			start: new Date(2014, 2, 2), 
+			end: new Date(2014, 3, 6),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 6',
+			description: 'Our Sixth Race', 
+			start: new Date(2014, 4, 16), 
+			end: new Date(2014, 5, 20),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 7',
+			description: 'Our Seventh Race', 
+			start: new Date(2014, 2, 15), 
+			end: new Date(2014, 3, 20),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 8',
+			description: 'Our Eigth Race', 
+			start: new Date(2014, 5, 20), 
+			end: new Date(2014, 6, 22),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 9',
+			description: 'Our Ninth Race', 
+			start: new Date(2014, 7, 18), 
+			end: new Date(2014, 8, 28),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		},
+		{
+			name: 'Test race 10',
+			description: 'Our Tenth Race', 
+			start: new Date(2014, 9, 5), 
+			end: new Date(2014, 10, 6),
+			waypoints :['ChIJDQwJnPG-xkcRvs1Rkmofx_0', 'ChIJmVfSm_G-xkcREPb8HdEX9YY', 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'],
+			participants :['55141859ddef6414234860bb', '55128141e4b629ecc2e28e51']
+		}
+&nbsp;
+	];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >	Race.find({}, <span class="fstat-no" title="function not covered" >function(err, data){</span></span>
+		// Als er nog geen boeken zijn vullen we de testdata
+<span class="cstat-no" title="statement not covered" >		if(data.length == 0){</span>
+<span class="cstat-no" title="statement not covered" >			console.log('Creating races testdata');</span>
+			
+<span class="cstat-no" title="statement not covered" >			testData.forEach(<span class="fstat-no" title="function not covered" >function(race){</span></span>
+<span class="cstat-no" title="statement not covered" >				new Race(race).save(saveCallback);</span>
+			});
+		} else{
+<span class="cstat-no" title="statement not covered" >			console.log('Skipping create races testdata, already present');</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if(callback){ <span class="cstat-no" title="statement not covered" >callback(); </span>}</span>
+	});
+};
+&nbsp;
+function fillTestWaypoints(callback){
+	var testData = [
+		// Vul hier je testdata voor authors in 
+		// {}, {}, {}
+		{
+			_id : 'ChIJDQwJnPG-xkcRvs1Rkmofx_0'
+		},
+		{
+			_id: 'ChIJmVfSm_G-xkcREPb8HdEX9YY'
+		},
+		{
+			_id: 'ChIJ_z5Eqe--xkcR2V2nBlMlPdU'
+		}
+	];
+&nbsp;
+	Waypoint.find({}, <span class="fstat-no" title="function not covered" >function(err, data){</span>
+		// Als er nog geen author zijn vullen we de testdata
+<span class="cstat-no" title="statement not covered" >		if(data.length == 0){</span>
+<span class="cstat-no" title="statement not covered" >			console.log('Creating waypoints testdata');</span>
+			
+<span class="cstat-no" title="statement not covered" >			testData.forEach(<span class="fstat-no" title="function not covered" >function(waypoint){</span></span>
+<span class="cstat-no" title="statement not covered" >				new Waypoint(waypoint).save(saveCallback);</span>
+			});
+		} else{
+<span class="cstat-no" title="statement not covered" >			console.log('Skipping create waypoints testdata, already present');</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if(callback){ <span class="cstat-no" title="statement not covered" >callback(); </span>}</span>
+	});
+};
+&nbsp;
+module.exports = function(mongoose){
+	Race = mongoose.model('Race');
+	Waypoint = mongoose.model('Waypoint');
+&nbsp;
+	fillTestWaypoints(fillTestRaces);
+}</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 31 2015 19:16:01 GMT+0200 (West-Europa (zomertijd))</div>
+</div>
+
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../../sorter.js"></script>
+</body>
+</html>

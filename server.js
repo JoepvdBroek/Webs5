@@ -29,7 +29,7 @@ require('./config/passport')(passport); // pass passport for configuration
 
 // Models
 require('./app/models/waypoint')(mongoose);
-//require('./models/user')(mongoose);
+require('./models/users')(mongoose);
 require('./app/models/race')(mongoose);
 require('./app/models/fillTestData')(mongoose);
 // /Models

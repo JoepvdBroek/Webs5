@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for config\connect-roles.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">config\connect-roles.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">26.92% <small>(14 / 52)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">8.33% <small>(1 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">32.56% <small>(14 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">config/</a> &#187; connect-roles.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var ConnectRoles = require('connect-roles');
+&nbsp;
+module.exports = function(){
+	var roles = new ConnectRoles({
+  		failureHandler: <span class="fstat-no" title="function not covered" >function (req, res, action) {</span>
+<span class="cstat-no" title="statement not covered" >  			res.status(401)</span>
+<span class="cstat-no" title="statement not covered" >      		res.render('access-denied', {action: action});</span>
+	  	}
+	});
+&nbsp;
+	roles.use('access beheerder', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >			if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >	  		if(req.user.hasAnyRole('beheerder')){</span>
+<span class="cstat-no" title="statement not covered" >	  			console.log("test");</span>
+<span class="cstat-no" title="statement not covered" >	  			return true;</span>
+	  		};
+	});
+&nbsp;
+	roles.use('add races', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >	  		if(req.user.hasAnyRole('beheerder')){</span>
+<span class="cstat-no" title="statement not covered" >	  			return true;</span>
+	  		};
+	});
+&nbsp;
+	roles.use('edit race', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >	  		if(req.user.hasAnyRole('beheerder')){</span>
+<span class="cstat-no" title="statement not covered" >	  			return true;</span>
+	  		};
+	});
+&nbsp;
+		roles.use('delete race', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >	  		if(req.user.hasAnyRole('beheerder')){</span>
+<span class="cstat-no" title="statement not covered" >	  			return true;</span>
+	  		};
+	});
+&nbsp;
+	roles.use('add race waypoints', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >	  		if(req.user.hasAnyRole('beheerder')){</span>
+<span class="cstat-no" title="statement not covered" >	  			return true;</span>
+	  		};
+	});
+&nbsp;
+	roles.use('delete race waypoints', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >	  		if(req.user.hasAnyRole('beheerder')){</span>
+<span class="cstat-no" title="statement not covered" >	  			return true;</span>
+	  		};
+	});
+&nbsp;
+	roles.use('add race participants', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	});
+&nbsp;
+	roles.use('add race data', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	});
+&nbsp;
+	roles.use('delete race participants', <span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >		if(!req.user){ <span class="cstat-no" title="statement not covered" >return false}</span>;</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	});
+&nbsp;
+	// Admins can do everything
+	roles.use(<span class="fstat-no" title="function not covered" >function (req) {</span>
+<span class="cstat-no" title="statement not covered" >  		if(req.user.hasAnyRole('admin')){</span>
+<span class="cstat-no" title="statement not covered" >  			return true;</span>
+  		};
+	});
+&nbsp;
+	return roles;
+};</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 31 2015 19:34:50 GMT+0200 (West-Europa (zomertijd))</div>
+</div>
+
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../sorter.js"></script>
+</body>
+</html>
