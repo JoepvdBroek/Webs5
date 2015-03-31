@@ -71,8 +71,8 @@ $(document).ready(function(){
         //SLideDown wanneer form niet zichtbaar is, anders slideUp
         var form = $("#updateraceform");
         if (form.css('display') == 'none'){
-            form.slideDown( "slow" );
             fillUpdateRaceForm(raceId);
+            form.slideDown( "slow" );
         } else {
             if(currentEditRace === raceId){
                form.slideUp( "slow" );
@@ -289,20 +289,18 @@ function fillUpdateRaceForm(raceId){
             alert('no connection');
         },
         success:function(response){
-            var enddate = new Date(Date.parse(response.end));
-            var startdate = new Date(Date.parse(response.start));
+            var enddate = response.end.toString();
+            var startdate = response.start.toString();
 
-            var endday = ("0" + enddate.getDate()).slice(-2);
-            var endmonth = ("0" + (enddate.getMonth() + 1)).slice(-2);
-
-            var startday = ("0" + startdate.getDate()).slice(-2);
-            var startmonth = ("0" + (startdate.getMonth() + 1)).slice(-2);
+            enddate = enddate.slice(0, - 1);
+            startdate = startdate.slice(0, - 1);
 
             currentEditRace = raceId;
             $('#updatename').val(response.name);
             $('#updatedescription').val(response.description);
-            $('#updatestart').val(startdate.getFullYear()+'-'+startmonth+'-'+startday);
-            $('#updateend').val(enddate.getFullYear()+'-'+endmonth+'-'+endday);
+
+            $('#updatestart').val(startdate);
+            $('#updateend').val(enddate);
         }
     });
 }
