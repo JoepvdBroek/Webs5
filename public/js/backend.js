@@ -1,3 +1,6 @@
+var per_page = 5;
+var currentPage = 1;
+
 var currentRace = '';
 var currentEditRace = '';
 
@@ -9,6 +12,9 @@ $(document).ready(function(){
     $("#addwaypointform").hide();
 	$("#addparticipantform").hide();
 
+    if(currentPage == 1){
+        $('#prevpage').hide();
+    }
 
     getRaces();
 
@@ -79,11 +85,25 @@ $(document).ready(function(){
 
     $( document ).on( 'click', '#selectrace', selectRace);
 
+    $( document ).on( 'click', '#nextpage', function(){
+        currentPage++;
+        getRaces();
+        $('#prevpage').show();
+    });
+
+    $( document ).on( 'click', '#prevpage', function(){
+        currentPage--;
+        getRaces();
+        if(currentPage == 1){
+            $('#prevpage').hide();
+        }
+    });
+
 });
 
 function getRaces(){
 
-    var url = 'http://localhost:8080/races';
+    var url = 'http://localhost:8080/races?per_page='+per_page+'&page='+currentPage;
 
     $.ajax({
         url: url,
@@ -93,6 +113,7 @@ function getRaces(){
             alert('no connection');
         },
         success:function(response){
+            $('#tablebody').empty();
             response = response.results;
             for (i = 0; i < response.length; i++) {
                 var html = '<tr>';
