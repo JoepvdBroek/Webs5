@@ -18,59 +18,14 @@ module.exports = function(){
 	});
 
 	roles.use('access beheerder', function (req) {
-			if(!req.user){ return false};
+		if(!req.user){ return false};
 	  		if(req.user.hasAnyRole('beheerder')){
-	  			console.log("test");
+	  			console.log("access beheerder: true");
 	  			return true;
 	  		};
 	});
 
-	roles.use('add races', function (req) {
-		if(!req.user){ return false};
-	  		if(req.user.hasAnyRole('beheerder')){
-	  			return true;
-	  		};
-	});
-
-	roles.use('edit race', function (req) {
-		if(!req.user){ return false};
-	  		if(req.user.hasAnyRole('beheerder')){
-	  			return true;
-	  		};
-	});
-
-		roles.use('delete race', function (req) {
-		if(!req.user){ return false};
-	  		if(req.user.hasAnyRole('beheerder')){
-	  			return true;
-	  		};
-	});
-
-	roles.use('add race waypoints', function (req) {
-		if(!req.user){ return false};
-	  		if(req.user.hasAnyRole('beheerder')){
-	  			return true;
-	  		};
-	});
-
-	roles.use('delete race waypoints', function (req) {
-		if(!req.user){ return false};
-	  		if(req.user.hasAnyRole('beheerder')){
-	  			return true;
-	  		};
-	});
-
-	roles.use('add race participants', function (req) {
-		if(!req.user){ return false};
-		return true;
-	});
-
-	roles.use('add race data', function (req) {
-		if(!req.user){ return false};
-		return true;
-	});
-
-	roles.use('delete race participants', function (req) {
+	roles.use('access normal user', function (req) {
 		if(!req.user){ return false};
 		return true;
 	});

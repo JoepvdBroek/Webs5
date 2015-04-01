@@ -55,7 +55,7 @@ function handleError(req, res, statusCode, message){
 //Routes
 var routes = require('./routes/index');
 var waypoints = require('./routes/waypoints')(handleError);
-var races = require('./routes/races')(mongoose, handleError);
+var races = require('./routes/races')(mongoose, roles, handleError);
 var backend = require('./routes/backend');
 
 // set up our express application
@@ -79,7 +79,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 app.use('/races', races);
 app.use('/waypoints', waypoints);
-app.use('/backend',roles.can('access beheerder'), backend);
+app.use('/backend', backend);
 
 // launch ======================================================================
 app.listen(port);

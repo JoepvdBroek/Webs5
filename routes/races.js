@@ -326,44 +326,43 @@ function checkDate(enddate){
     }
     return true;
 }
-
-
-
-// Routing
-router.route('/')
-	.get(getRaces)
-	.post(addRace);
-
-router.route('/:id')
-	.get(getRaces)
-	.put(editRace)
-	.delete(deleteRace);
-
-router.route('/:id/tags')
-	.put(addRaceTag);
-
-router.route('/:id/waypoints')
-	.get(getWaypoints)
-	.put(addWaypoint);
-
-router.route('/:id/results')
-	.get(getResults);
-
-router.route('/:id/waypoints/:waypointId')
-	.delete(deleteWaypoint);
-
-router.route('/:id/participants')
-	.put(addParticipant);
-
-router.route('/:id/participants/:participantId')
-	.delete(deleteParticipant);
 	
 
 // Export
-module.exports = function (mongoose, errCallback){
+module.exports = function (mongoose, roles,  errCallback){
 	console.log('Initializing race routing module');
 	Race = mongoose.model('Race');
 	Waypoint = mongoose.model('Waypoint');
 	handleError = errCallback;
+
+	// Routing
+	router.route('/')
+		.get(getRaces)
+		.post(roles.can('access beheerder'), addRace);
+
+	router.route('/:id')
+		.get(getRaces)
+		.put(roles.can('access beheerder'), editRace)
+		.delete(roles.can('access beheerder'), deleteRace);
+
+	router.route('/:id/tags')
+		.put(roles.can('access normal user'), addRaceTag);
+
+	router.route('/:id/waypoints')
+		.get(getWaypoints)
+		.put(roles.can('access beheerder'), addWaypoint);
+
+	router.route('/:id/results')
+		.get(getResults);
+
+	router.route('/:id/waypoints/:waypointId')
+		.delete(roles.can('access beheerder'), deleteWaypoint);
+
+	router.route('/:id/participants')
+		.put(roles.can('access normal user'), addParticipant);
+
+	router.route('/:id/participants/:participantId')
+		.delete(roles.can('access normal user'), deleteParticipant);
+	
 	return router;
 };
