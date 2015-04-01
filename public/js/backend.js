@@ -1,3 +1,5 @@
+var prefix = "https://webs5restrace.herokuapp.com"
+
 var per_page = 5;
 var currentPage = 1;
 
@@ -103,7 +105,7 @@ $(document).ready(function(){
 
 function getRaces(){
 
-    var url = 'http://localhost:8080/races?per_page='+per_page+'&page='+currentPage;
+    var url = prefix+'/races?per_page='+per_page+'&page='+currentPage;
 
     $.ajax({
         url: url,
@@ -136,7 +138,7 @@ function addRace(){
 
     var newRace = { name: name, description: description, start: start, end: end};
 
-    var url = 'http://localhost:8080/races';
+    var url = prefix+'/races';
 
     $.ajax({
         url: url,
@@ -167,7 +169,7 @@ function deleteRace(){
     if (confirmation === true) {
 
         // If they did, do our delete
-        var url = 'http://localhost:8080/races/'+$(this).attr('rel');
+        var url = prefix+'/races/'+$(this).attr('rel');
 
         $.ajax({
             url: url,
@@ -197,7 +199,7 @@ function editRace(){
     var updateRace = { name: name, description: description, start: start, end: end};
     console.log(updateRace);
 
-    var url = 'http://localhost:8080/races/'+currentEditRace;
+    var url = prefix+'/races/'+currentEditRace;
     console.log(url);
 
     $.ajax({
@@ -219,7 +221,7 @@ function selectRace(event){
 
     currentRace = $(this).attr('rel');
 
-    var url = 'http://localhost:8080/races/'+currentRace;
+    var url = prefix+'/races/'+currentRace;
 
     $.ajax({
         url: url,
@@ -255,7 +257,7 @@ function addWaypoint(){
 
     var newWaypoint = { _id: placeId };
 
-    var url = 'http://localhost:8080/races/'+currentRace+'/waypoints';
+    var url = prefix+'/races/'+currentRace+'/waypoints';
     console.log(url);
 
     $.ajax({
@@ -279,7 +281,7 @@ function addParticipant(){
 
 function fillUpdateRaceForm(raceId){
 
-    var url = 'http://localhost:8080/races/'+raceId;
+    var url = prefix+'/races/'+raceId;
 
     $.ajax({
         url: url,
