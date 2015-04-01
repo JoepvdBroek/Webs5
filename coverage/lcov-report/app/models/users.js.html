@@ -14,20 +14,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header medium">
     <h1>Code coverage report for <span class="entity">app\models\users.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">33.33% <small>(9 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">66.67% <small>(18 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">37.5% <small>(3 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">0% <small>(0 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">50% <small>(3 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">36% <small>(9 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">68% <small>(17 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -134,22 +134,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -201,23 +201,23 @@ userSchema.methods.generateHash = <span class="fstat-no" title="function not cov
 };
 &nbsp;
 // checking if password is valid
-userSchema.methods.validPassword = <span class="fstat-no" title="function not covered" >function(password) {</span>
-<span class="cstat-no" title="statement not covered" >    return bcrypt.compareSync(password, this.local.password);</span>
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.local.password);
 };
-userSchema.methods.hasAnyRole = <span class="fstat-no" title="function not covered" >function(roles){</span>
-<span class="cstat-no" title="statement not covered" >        if(!Array.isArray(roles)){</span>
-<span class="cstat-no" title="statement not covered" >            roles = [roles];</span>
+userSchema.methods.hasAnyRole = function(roles){
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(!Array.isArray(roles)){
+            roles = [roles];
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        var lowerCaseRoles = _.map(this.roles, <span class="fstat-no" title="function not covered" >function(role){</span> <span class="cstat-no" title="statement not covered" >return role.toLowerCase(); </span>});</span>
-<span class="cstat-no" title="statement not covered" >        for(var index in roles){</span>
-<span class="cstat-no" title="statement not covered" >            if(_.contains(lowerCaseRoles, roles[index].toLowerCase())){</span>
+        var lowerCaseRoles = _.map(this.roles, function(role){ return role.toLowerCase(); });
+        for(var index in roles){
+            if(_.contains(lowerCaseRoles, roles[index].toLowerCase())){
                 // If any role matches, it's allright, we can return true;
-<span class="cstat-no" title="statement not covered" >                return true;</span>
+                return true;
             }
         };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return false;</span>
+        return false;
     };
 &nbsp;
     userSchema.methods.hasAllRoles = <span class="fstat-no" title="function not covered" >function(roles){</span>
@@ -244,7 +244,7 @@ module.exports = mongoose.model('User', userSchema);
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 31 2015 19:34:50 GMT+0200 (West-Europa (zomertijd))</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 01 2015 14:53:40 GMT+0200 (West-Europa (zomertijd))</div>
 </div>
 
 <script src="../../prettify.js"></script>

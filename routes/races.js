@@ -32,32 +32,11 @@ function fetchWaypoints(req, res, data){
 	  	});
 
 	  	data.waypoints = Waypoints;
+	  	// console.log(Waypoints);
+	  	// console.log(data.waypoints);
 	  	res.json(data);
 	});
 }
-
-/*function getRaces(req, res){
-	var query = {};
-	if(req.params.id){
-		query._id = req.params.id.toLowerCase();
-	}
-
-	Race.find(query).lean().exec(function(err, data){
-		if(err){ return handleError(req, res, 500, err.message); }
-		
-		if(req.params.id){
-			data = data[0];
-			if(data.waypoints !=null  && data.waypoints.length> 0){
-			 	fetchWaypoints(res,data);
-			} else {
-				res.json(data);
-			}
-		}
-		else {
-			res.json(data);
-		}
-	});
-}*/
 
 function getRaces(req, res){
 	var query = {};
@@ -168,7 +147,7 @@ function getWaypoints(req, res){
 		.exec(function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			if(data.waypoints !=null  && data.waypoints.length> 0){
-				fetchWaypoints(res,data);
+				fetchWaypoints(req, res, data);
 			} else {
 				res.json(data);
 			}
@@ -201,7 +180,7 @@ function deleteWaypoint(req, res){
 			race.waypoints.splice(waypoint, 1);
 			race.save(function(err){
 				if(err){ return handleError(req, res, 500, err); }
-				res.json("Waypoint deleted");
+				res.json("Successfully deleted");
 			});
 		}else{
 			return handleError(req, res, 304, "No Waypoint found");
@@ -232,6 +211,7 @@ function addRaceTag(req, res){
 		//TODO check of tag al bestaat
 		if(_.contains(race.participants,participant)){ 
 		tag = { participantId: participant, waypointId: waypoint };
+		console.log(tag);
 		race.tags.push(tag);
 		race.save(function(err,race){
 			if(err){ return handleError(req, res, 500, err); }
@@ -253,7 +233,7 @@ function deleteParticipant(req, res){
 			race.participants.splice(participant, 1);
 			race.save(function(err){
 				if(err){ return handleError(req, res, 500, err); }
-				res.json("Participants removed");
+				res.json("Successfully removed");
 			});
 		}else{
 			return handleError(req, res, 304, "No Participant found");
@@ -363,6 +343,6 @@ module.exports = function (mongoose, roles,  errCallback){
 
 	router.route('/:id/participants/:participantId')
 		.delete(roles.can('access normal user'), deleteParticipant);
-	
+
 	return router;
 };

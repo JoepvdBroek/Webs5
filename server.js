@@ -56,7 +56,7 @@ function handleError(req, res, statusCode, message){
 var routes = require('./routes/index');
 var waypoints = require('./routes/waypoints')(handleError);
 var races = require('./routes/races')(mongoose, roles, handleError);
-var backend = require('./routes/backend');
+var backend = require('./routes/backend')(roles);
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console

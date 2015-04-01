@@ -6,7 +6,7 @@ module.exports = function(){
     // optional function to customise code that runs when
     // user fails authorisation
     var accept = req.headers.accept || '';
-    res.status(403);
+    res.status(401);
     if (~accept.indexOf('html')) {
       //res.render('access-denied', {action: action});
       res.render('accesdenied.html');
@@ -20,7 +20,6 @@ module.exports = function(){
 	roles.use('access beheerder', function (req) {
 		if(!req.user){ return false};
 	  		if(req.user.hasAnyRole('beheerder')){
-	  			console.log("access beheerder: true");
 	  			return true;
 	  		};
 	});

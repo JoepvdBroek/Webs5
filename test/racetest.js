@@ -54,8 +54,8 @@ function handleError(req, res, statusCode, message){
 //Routes
 var routes = require('../routes/index');
 var waypoints = require('../routes/waypoints')(handleError);
-var races = require('../routes/races')(mongoose, handleError);
-var backend = require('../routes/backend');
+var races = require('../routes/races')(mongoose, roles, handleError);
+var backend = require('../routes/backend')(roles);
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -65,7 +65,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.set('view engine', 'ejs'); // set up ejs for templating
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, '../views/'));
 app.engine('html', require('ejs').renderFile);
 
 // required for passport
@@ -87,8 +87,9 @@ app.use('/backend', backend);
 app.listen(port);
 console.log('The magic happens on port ' + port);
 
+var cookie;
 var race2 = {};
-var testUser = {};
+var testUser = { _id : "551a98c117b76600059611d0" };
 var testWaypoint = {};
 
 function getInputDate(date){
@@ -101,7 +102,7 @@ function getInputDate(date){
 }
 
 function makeRequest(route, statusCode, done){
-    /*if(cookie != null){
+    if(cookie != null){
         request(app)
         .get(route)
         .set("cookie",cookie)
@@ -111,7 +112,7 @@ function makeRequest(route, statusCode, done){
 
             done(null, res);
         });
-    } else{*/
+    } else{
         request(app)
         .get(route)
         .expect(statusCode)
@@ -120,12 +121,12 @@ function makeRequest(route, statusCode, done){
 
             done(null, res);
         });
-    //}
+    }
 	
 };
 
 function makePostRequest(route, data, statusCode, done){
-    /*if(cookie != null){
+    if(cookie != null){
         request(app)
         .post(route)
         .send(data)
@@ -135,7 +136,7 @@ function makePostRequest(route, data, statusCode, done){
             if(err){ return done(err); }
             done(null, res);
         });
-    } else{*/
+    } else{
         request(app)
         .post(route)
         .send(data)
@@ -144,11 +145,11 @@ function makePostRequest(route, data, statusCode, done){
             if(err){ return done(err); }
             done(null, res);
         });
-    //}
+    }
 }
 
 function makePutRequest(route, data, statusCode, done){
-    /*if(cookie != null){
+    if(cookie != null){
         request(app)
         .put(route)
         .send(data)
@@ -158,7 +159,7 @@ function makePutRequest(route, data, statusCode, done){
             if(err){ return done(err); }
             done(null, res);
         });
-    } else{*/
+    } else{
         request(app)
         .put(route)
         .send(data)
@@ -167,12 +168,12 @@ function makePutRequest(route, data, statusCode, done){
             if(err){ return done(err); }
             done(null, res);
         });
-    //}
+    }
     
 }
 
 function makeDeleteRequest(route, statusCode, done){
-    /*if(cookie != null){
+    if(cookie != null){
         request(app)
         .delete(route)
         .set("cookie",cookie)
@@ -181,7 +182,7 @@ function makeDeleteRequest(route, statusCode, done){
             if(err){ return done(err); }
             done(null, res);
         });
-    } else{*/
+    } else{
         request(app)
         .delete(route)
         .expect(statusCode)
@@ -189,9 +190,132 @@ function makeDeleteRequest(route, statusCode, done){
             if(err){ return done(err); }
             done(null, res);
         });
-    //}
+    }
     
 }
+
+function loginBeheer() {
+    return function(done) {
+        request(app)
+            .post('/login')
+            .send({ email: 'beheerder', password: 'beheerder' })
+            .expect(302)
+            .end(onResponse);
+
+        function onResponse(err, res) {
+           if (err) return done(err);
+           cookie = res.headers['set-cookie'];
+           return done();
+        }
+    };
+};
+
+function loginUser() {
+    return function(done) {
+        request(app)
+            .post('/login')
+            .send({ email: 'joep28_12@hotmail.com', password: 'joep12' })
+            .expect(302)
+            .end(onResponse);
+
+        function onResponse(err, res) {
+           if (err) return done(err);
+           cookie = res.headers['set-cookie'];
+           return done();
+        }
+    };
+};
+
+function signupUser() {
+    return function(done) {
+        request(app)
+            .post('/signup')
+            .send({ email: 'signuptest', password: 'test'})
+            .expect(302)
+            .end(onResponse);
+
+        function onResponse(err, res) {
+           if (err) return done(err);
+           cookie = res.headers['set-cookie'];
+           return done();
+        }
+    };
+};
+
+describe('Testing beheer route', function(){
+    describe('without login', function(){
+        it('should return 401', function(done){
+            makeRequest('/backend', 401, function(err, res){
+                if(err){ return done(err); }
+                done();
+            });
+        });
+    });
+    describe('with beheer login', function(){
+        it('login beheerder', loginBeheer());
+        console.log('cookie: '+ cookie);
+        it('uri that requires beheerder to be logged in', function(done){
+            makeRequest('/backend', 200, function(err, res){
+                if(err){ return done(err); }
+                done();
+            });
+        });
+        it('logout beheer',function(done){
+            makeRequest('/logout', 302, function(err, res){
+                if(err){ return done(err); }
+                cookie = null;
+                done();
+            });
+        })
+    });
+    describe('with user login',function(){
+        it('login user', loginUser());
+        it('uri that requires beheer to be logged in', function(done){
+            makeRequest('/backend', 401, function(err, res){
+                if(err){ return done(err); }
+                done();
+            });
+        });
+        it('logout user',function(done){
+            makeRequest('/logout', 302, function(err, res){
+                if(err){ return done(err); }
+                cookie = null;
+                done();
+            });
+        });
+    });
+});
+
+
+describe('Testing profile route', function(){
+    describe('without login', function(){
+        it('should return 302 move to login', function(done){
+            makeRequest('/profile', 302, function(err, res){
+                if(err){ return done(err); }
+                done();
+            });
+        });
+    });
+    describe('with user login',function(){
+        it('login user', loginUser());
+        it('uri that requires user to be logged in', function(done){
+            makeRequest('/profile', 200, function(err, res){
+                if(err){ return done(err); }
+                done();
+            });
+        });
+        it('logout user',function(done){
+            makeRequest('/logout', 302, function(err, res){
+                if(err){ return done(err); }
+                cookie = null;
+                done();
+            });
+        });
+    });
+});
+
+
+
 
 describe('Testing Race Route',function(){
     before(function(done){
@@ -206,7 +330,8 @@ describe('Testing Race Route',function(){
             race2 = race;
             done();
         });
-    })
+    });
+
     describe('Get /races', function(){
         it('should return atleast one Race', function(done){
             makeRequest('/races', 200, function(err, res){
@@ -216,8 +341,9 @@ describe('Testing Race Route',function(){
             });
         });
     });
+
     describe('POST /', function(){
-        //it('login beheerder', loginBeheer());
+        it('login beheerder', loginBeheer());
         it('create race correct', function(done){
             EndDate =  new Date();
             EndDate.setDate(EndDate.getDate() + 1);
@@ -248,4 +374,157 @@ describe('Testing Race Route',function(){
             });
         });
     });
+
+     describe('Waypoints',function(){
+        describe('GET /',function(){
+            it('get Waypoints with no results', function(done){
+                makeRequest('/races/'+race2._id+"/waypoints", 200, function(err, res){
+                    if(err){ return done(err); }
+                    expect(res.body.waypoints.length).to.equal(0);
+                    done();
+                });
+            });
+        });
+        describe('PUT /',function(){
+            it('add Waypoint to race', function(done){
+                makePutRequest('/races/'+race2._id+"/waypoints",{_id:"ChIJDQwJnPG-xkcRvs1Rkmofx_0"}, 200, function(err, res){
+                    if(err){ return done(err); }
+                    expect(res.body.place_id).to.equal("ChIJDQwJnPG-xkcRvs1Rkmofx_0");
+                    done();
+                });
+            });
+        });
+        describe('GET /',function(){
+            it('get Waypoints with results', function(done){
+                makeRequest('/races/'+race2._id, 200, function(err, res){
+                    if(err){ return done(err); }
+                    testWaypoint = res.body.waypoints[0];
+                    expect(res.body.waypoints[0].place_id).to.equal("ChIJDQwJnPG-xkcRvs1Rkmofx_0");
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('Participants',function(){
+        /*before(function(done){
+            User.findOne({"local.email":"joep28_12@hotmail.com"},function(err,user) {
+                if(err){ return done(err); }
+                user.save(function(err,user){
+                    if(err){ return done(err); }
+                    testUser = user;
+                    done();
+                })
+            });
+        });*/
+
+
+        //IS MET STATIC ID, MOET EIGEN EERST EEN OPHALEN UIT MODELS, MAAR GEEFT ERROR
+        describe('PUT /',function(){
+            it('add participant to race', function(done){
+                makePutRequest('/races/'+race2._id+"/participants",{user: testUser._id}, 200, function(err, res){
+                        if(err){ return done(err); }
+                        expect(res.body.participants[0]).to.equal(testUser._id);
+                        done();
+                });
+            });
+        });
+    });  
+
+    describe('Tags',function(){
+        describe('PUT /',function(){
+            it('add correct data to race', function(done){
+                makePutRequest('/races/'+race2._id+"/tags",
+                    {
+                        user:testUser._id,
+                        waypoint:testWaypoint.place_id,
+                    }
+                    , 200, function(err, res){
+                        if(err){ return done(err); }
+                        expect(res.body.tags[0].waypointId).to.equal(testWaypoint.place_id);
+                        done();
+                });
+            });
+        });
+    });
+
+    describe('Deletes',function(){
+        /*before(function(){
+            Race.findById(race2._id,function(err,race){
+                race.end = new Date();
+                race.start = new Date();
+                race.save(function(err,race){
+                    race2 = race;
+                });
+            });
+        });*/
+        describe('waypoints',function(){
+            it('delete Waypoint', function(done){
+                makeDeleteRequest('/races/'+race2._id+"/waypoints/ChIJDQwJnPG-xkcRvs1Rkmofx_0", 200, function(err, res){
+                    if(err){ return done(err); }
+                    expect(res.text).to.contains('Successfully deleted');
+                    done();
+                });
+            });
+            it('delete Waypoint error', function(done){
+                makeDeleteRequest('/races/'+race2._id+"/waypoints/ChIJDQwJnPG-xkcRvs1Rkmofx_0", 304, function(err, res){
+                    if(err){ return done(err); }
+                    done();
+                });
+            });
+        });
+        describe('participant',function(){
+            it('delete participant', function(done){
+                makeDeleteRequest('/races/'+race2._id+"/participants/"+testUser._id, 200, function(err, res){
+                    if(err){ return done(err); }
+                    expect(res.text).to.contains('Successfully removed');
+                    done();
+                });
+            });
+            it('delete participant error', function(done){
+                makeDeleteRequest('/races/'+race2._id+"/participants/"+testUser._id, 304, function(err, res){
+                    if(err){ return done(err); }
+                    done();
+                });
+            });
+        });
+        describe('race',function(){
+            it('delete race correct', function(done){
+                makeDeleteRequest('/races/'+race2._id, 200, function(err, res){
+                    if(err){ return done(err); }
+                    expect(res.text).to.contains('Successfully deleted!');
+                    done();
+                });
+            })
+            it('delete race incorrect', function(done){
+                makeDeleteRequest('/races/123', 404, function(err, res){
+                    if(err){ return done(err); }
+                    done();
+                });
+            });
+        });
+    });
+
 });
+
+
+describe("remove test shit",function(){
+    it("should remove test user",function(){
+        User.remove({"local.email":"signuptest"},function(err) {
+            if(err){ return done(err); }
+            done();
+        });
+    })
+    it("should remove testrace 1",function(){
+        Race.remove({"name":"testRace1"},function(err) {
+            if(err){ return done(err); }
+            done();
+        });
+    })
+    it("should remove testrace 2",function(){
+        Race.remove({"name":"testRace2"},function(err) {
+            if(err){ return done(err); }
+            done();
+        });
+    })
+})
