@@ -9,7 +9,7 @@ module.exports = function(){
     res.status(403);
     if (~accept.indexOf('html')) {
       //res.render('access-denied', {action: action});
-      res.render('index.html');
+      res.render('accesdenied.html');
 
     } else {
       res.send('Access Denied - You don\'t have permission to: ' + action);
