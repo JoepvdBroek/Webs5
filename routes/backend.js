@@ -7,7 +7,7 @@ var router = express.Router();
 });*/
 
 router.route('/').get(function(req, res) {
-	console.log("test");
+	console.log("test2");
     res.render('backend.html', {
     	title: 'Race beheer', 
         user : req.user // get the user out of session and pass to template

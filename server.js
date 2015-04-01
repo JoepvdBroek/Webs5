@@ -8,6 +8,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 
+var ConnectRoles = require('connect-roles');
+
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
@@ -29,13 +31,15 @@ require('./config/passport')(passport); // pass passport for configuration
 
 // Models
 require('./app/models/waypoint')(mongoose);
-require('./models/users')(mongoose);
+require('./app/models/users')(mongoose);
 require('./app/models/race')(mongoose);
 require('./app/models/fillTestData')(mongoose);
 // /Models
 
 //roles:
 var roles = require('./config/connect-roles')();
+//roles
+app.use(roles.middleware());
 
 function handleError(req, res, statusCode, message){
     console.log();
@@ -52,7 +56,7 @@ function handleError(req, res, statusCode, message){
 var routes = require('./routes/index');
 var waypoints = require('./routes/waypoints')(handleError);
 var races = require('./routes/races')(mongoose, handleError);
-var backend = require('./routes/backend');
+var backend = require('./routes/backend')(roles);
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -71,14 +75,11 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-//roles
-app.use(roles.middleware());
-
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 app.use('/races', races);
 app.use('/waypoints', waypoints);
-app.use('/backend', backend);
+app.use('/backend',roles.can('access beheerder'), backend);
 
 // launch ======================================================================
 app.listen(port);
