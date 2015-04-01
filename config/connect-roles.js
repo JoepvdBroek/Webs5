@@ -20,6 +20,7 @@ module.exports = function(){
 	roles.use('access beheerder', function (req) {
 		if(!req.user){ return false};
 	  		if(req.user.hasAnyRole('beheerder')){
+	  			console.log("access beheerder: true");
 	  			return true;
 	  		};
 	});
