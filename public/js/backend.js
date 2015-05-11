@@ -113,7 +113,7 @@ function getRaces(){
         type:'GET',
         dataType:'json',
         error:function(jqXHR,text_status,strError){
-            alert('no connection');
+            alert('error getting all races: '+ strError);
         },
         success:function(response){
             $('#tablebody').empty();
@@ -147,7 +147,7 @@ function addRace(){
         dataType:'json',
         data: newRace,
         error:function(jqXHR,text_status,strError){
-            alert('no connection');
+            alert('error adding race: ' + strError);
         },
         success:function(response){
             var html = '<tr>';
@@ -177,7 +177,7 @@ function deleteRace(){
             type:'DELETE',
             dataType:'json',
             error:function(jqXHR,text_status,strError){
-                alert('no connection');
+                alert('error deleting race: ' + strError);
             },
             success:function(response){
                 location.reload();
@@ -209,7 +209,7 @@ function editRace(){
         dataType:'json',
         data: updateRace,
         error:function(jqXHR,text_status,strError){
-            alert('no connection');
+            alert('error editing race: ' + strError);
         },
         success:function(response){
             location.reload();
@@ -229,7 +229,7 @@ function selectRace(event){
         type:'GET',
         dataType:'json',
         error:function(jqXHR,text_status,strError){
-            alert('no connection');
+            alert('error getting single race: ' + strError);
         },
         success:function(response){
         	//Fill list with participants
@@ -267,7 +267,7 @@ function addWaypoint(){
         dataType:'json',
         data: newWaypoint,
         error:function(jqXHR,text_status,strError){
-            alert('no connection');
+            alert('error adding waypoint: '+ strError);
         },
         success:function(response){
             console.log(response);
@@ -289,7 +289,7 @@ function fillUpdateRaceForm(raceId){
         type:'GET',
         dataType:'json',
         error:function(jqXHR,text_status,strError){
-            alert('no connection');
+            alert('error getting single race: ' + strError);
         },
         success:function(response){
             var enddate = response.end.toString();
