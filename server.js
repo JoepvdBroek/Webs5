@@ -1,7 +1,7 @@
 // set up ======================================================================
 // get all the tools we need
 var express  = require('express');
-var path = require('path');
+var path     = require('path');
 var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
@@ -23,6 +23,7 @@ mongoose.connect(configDB.url); // connect to our database
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   next();
 });
 
