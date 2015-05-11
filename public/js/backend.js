@@ -1,4 +1,4 @@
-var prefix = "https://webs5restrace.herokuapp.com"
+var prefix = "https://webs5restrace.herokuapp.com";
 //var prefix = "http://localhost:8080";
 
 var per_page = 5;
