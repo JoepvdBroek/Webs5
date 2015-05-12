@@ -8,7 +8,7 @@ var router = express();
 
 
 
-module.exports = router;
+//module.exports = router;
 
 module.exports = function(roles){
 
