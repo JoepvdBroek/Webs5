@@ -5,7 +5,7 @@ var path     = require('path');
 var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
-var passport = require('passport');
+//var passport = require('passport');
 var flash    = require('connect-flash');
 
 var ConnectRoles = require('connect-roles');
@@ -28,7 +28,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-require('./config/passport')(passport); // pass passport for configuration
+//require('./config/passport')(passport); // pass passport for configuration
+
 
 // Models
 require('./app/models/waypoint')(mongoose);
@@ -36,6 +37,10 @@ require('./app/models/users')(mongoose);
 require('./app/models/race')(mongoose);
 require('./app/models/fillTestData')(mongoose);
 // /Models
+
+//Passport
+  var passport = require('./config/passport2')(require('./app/models/users'));
+//Passport
 
 //roles:
 var roles = require('./config/connect-roles')();
