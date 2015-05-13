@@ -5,7 +5,7 @@ var path     = require('path');
 var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
-//var passport = require('passport');
+var passport = require('passport');
 var flash    = require('connect-flash');
 
 var ConnectRoles = require('connect-roles');
@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-//require('./config/passport')(passport); // pass passport for configuration
+require('./config/passport')(passport); // pass passport for configuration
 
 
 // Models
@@ -38,9 +38,7 @@ require('./app/models/race')(mongoose);
 require('./app/models/fillTestData')(mongoose);
 // /Models
 
-//Passport
-  var passport = require('./config/passport2')(require('./app/models/users'));
-//Passport
+
 
 //roles:
 var roles = require('./config/connect-roles')();
@@ -65,11 +63,12 @@ var races = require('./routes/races')(mongoose, roles, handleError);
 var backend = require('./routes/backend')(roles);
 
 // set up our express application
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 //app.set('view engine', 'ejs'); // set up ejs for templating
 app.set('views', __dirname + '/views');
