@@ -113,6 +113,7 @@ function getRaces(){
         type:'GET',
         dataType:'json',
         error:function(jqXHR,text_status,strError){
+            console.log(jqXHR);
             alert('error getting all races: '+ strError);
         },
         success:function(response){
