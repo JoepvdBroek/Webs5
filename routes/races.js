@@ -30,7 +30,7 @@ function fetchWaypoints(req, res, data){
 	  	_.each(results,function(result){
 	  		Waypoints.push(JSON.parse(result[1]).result);
 	  	});
-
+	  	data.user = req.user;
 	  	data.waypoints = Waypoints;
 	  	// console.log(Waypoints);
 	  	// console.log(data.waypoints);
@@ -47,8 +47,7 @@ function getRaces(req, res){
 		console.log(req.params.id);
 		query._id = req.params.id;
 		result = Race.find(query);/*.lean().exec(function(err, data){*/
-		result.populate('Participants', '-__v -roles -google.email -google.id -google.token -local.password').lean().exec(function(err, data){
-			data[0].user = req;
+		result.populate('Participants', '-__v -roles -google.email -google.id -google.token -local.password').lean().exec(function(err, data){	
 			if(err){ return handleError(req, res, 500, err); }
 
 			if(data[0].waypoints !=null  && data[0].waypoints.length> 0){
@@ -89,7 +88,7 @@ function getRaces(req, res){
 				pages:pageCount,
 				page:page,
 				totalItems:itemCount,
-				user:req
+				user:req.user
 			}
 			res.json(data);
 		})
