@@ -48,6 +48,7 @@ function getRaces(req, res){
 		query._id = req.params.id;
 		result = Race.find(query);/*.lean().exec(function(err, data){*/
 		result.populate('Participants', '-__v -roles -google.email -google.id -google.token -local.password').lean().exec(function(err, data){
+			data[0].user = req;
 			if(err){ return handleError(req, res, 500, err); }
 
 			if(data[0].waypoints !=null  && data[0].waypoints.length> 0){
@@ -83,13 +84,12 @@ function getRaces(req, res){
 		}
 		Race.paginate(query,page,per_page,function(err,pageCount,results,itemCount){
 			if(err){ return handleError(req, res, 500, err); }
-			console.log(req.user);
 			data = {
 				results:results,
 				pages:pageCount,
 				page:page,
 				totalItems:itemCount,
-				user:req.user
+				user:req
 			}
 			res.json(data);
 		})
