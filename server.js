@@ -40,7 +40,7 @@ require('./app/models/fillTestData')(mongoose);
 //roles:
 var roles = require('./config/connect-roles')();
 //roles
-app.use(roles.middleware());
+
 
 function handleError(req, res, statusCode, message){
     console.log();
@@ -75,6 +75,8 @@ app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secre
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+
+app.use(roles.middleware());
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
