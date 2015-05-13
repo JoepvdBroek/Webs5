@@ -39,6 +39,7 @@ function fetchWaypoints(req, res, data){
 }
 
 function getRaces(req, res){
+	console.log(req.user);
 	var query = {};
 	var per_page = 10;
 	var page = 1;
@@ -82,11 +83,13 @@ function getRaces(req, res){
 		}
 		Race.paginate(query,page,per_page,function(err,pageCount,results,itemCount){
 			if(err){ return handleError(req, res, 500, err); }
+			console.log(req.user);
 			data = {
 				results:results,
 				pages:pageCount,
 				page:page,
-				totalItems:itemCount
+				totalItems:itemCount,
+				user:req.user
 			}
 			res.json(data);
 		})
