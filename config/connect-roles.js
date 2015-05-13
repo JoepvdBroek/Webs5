@@ -22,9 +22,7 @@ module.exports = function(){
 	  		if(req.user.hasAnyRole('beheerder')){
 	  			console.log("access beheerder: true");
 	  			return true;
-	  		} else {
-	  			return false;
-	  		}
+	  		};
 	  	
 	});
 
