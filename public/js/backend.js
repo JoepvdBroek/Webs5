@@ -1,5 +1,5 @@
-var prefix = "https://webs5restrace.herokuapp.com";
-//var prefix = "http://localhost:8080";
+//var prefix = "https://webs5restrace.herokuapp.com";
+var prefix = "http://localhost:8080";
 
 var per_page = 5;
 var currentPage = 1;
@@ -61,7 +61,7 @@ $(document).ready(function(){
 
     $('#updaterace').on('click', editRace);
 
-    $('#submitwaypoint').on('click', addWaypoint);
+    $('#submitSearch').on('click', getWaypoints);
 
     $('#submitparticipant').on('click', addParticipant);
 
@@ -254,14 +254,37 @@ function selectRace(event){
     });
 }
 
-function addWaypoint(){
-	var placeId = $('#waypoint').val();
+function getWaypoints(){
+    var searchQuery = $("#searchQuery").val().replace(",","+");
+    var url = prefix+'/waypoints?search='+searchQuery;
 
-    var newWaypoint = { _id: placeId };
+    $.ajax({
+        url: url,
+        type:'GET',
+        dataType:'json',
+        error:function(jqXHR,text_status,strError){
+            alert('error getting waypoints: '+ strError);
+        },
+        success:function(response){
+            if(response.status == "ZERO_RESULTS"){
+                alert("Geen kroegen gevonden");
+            } 
+
+            if(response.status == "OK"){
+                var waypoints = '';
+                for (i = 0; i < response.results.length; i++) {
+                    waypoints += '<li class="list-group-item">'+response.results[i].name+'<a style="float:right;" onclick="addWaypoint(\''+response.results[i].place_id+'\')">Voeg toe</a></li>'; 
+                }
+                $("#addwaypointlist").html(waypoints);
+            }
+        }
+    });
+}
+
+function addWaypoint(id){
+    var newWaypoint = { _id: id };
 
     var url = prefix+'/races/'+currentRace+'/waypoints';
-    console.log(url);
-
     $.ajax({
         url: url,
         type:'PUT',

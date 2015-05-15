@@ -32,10 +32,21 @@ function fetchWaypoints(req, res, data){
 	  	});
 	  	data.user = req.user;
 	  	data.waypoints = Waypoints;
-	  	// console.log(Waypoints);
-	  	// console.log(data.waypoints);
 	  	res.json(data);
 	});
+}
+
+function getWaypoints(req, res){
+	Race
+		.findById(req.params.id).lean()
+		.exec(function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			if(data.Waypoints.length){
+				fetchWaypoints(req,res,data);
+			}else{
+				res.json(data);
+			}
+		});
 }
 
 function getRaces(req, res){
@@ -161,12 +172,12 @@ function addWaypoint(req, res){
 		Race.findById(req.params.id, function(err, race){
 			if(err){ return handleError(req, res, 500, err); }
 			if(!checkDate(race.end)){ return handleError(req, res, 304, "Race expired"); }
-			if(_.contains(race.Waypoints,waypoint._id)){ return handleError(req, res, 304, "Waypoint already exists"); }
+			if(_.contains(race.waypoints,waypoint._id)){ return handleError(req, res, 304, "Waypoint already exists"); }
 			race.waypoints.push(waypoint._id);
 			race.save(function(err,race){
 				if(err){ return handleError(req, res, 500, err); }
 				request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint._id+"&key="+configAuth.googleAuth.APIKey,function(err,result){
-					data = (JSON.parse(result.body).result)
+					data = (JSON.parse(result.body).result);
 					res.json(data);
 				})
 			});

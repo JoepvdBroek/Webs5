@@ -14,7 +14,6 @@ module.exports = function(roles){
 
 	/* GET home page. */
     router.route('/').get(roles.can('access beheerder'),function(req, res) {
-    	console.log(req.user);
 	    res.render('backend.html', {
 	    	title: 'Race beheer', 
 	        user : req.user // get the user out of session and pass to template
