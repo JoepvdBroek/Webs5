@@ -295,7 +295,7 @@ function addWaypoint(id){
         },
         success:function(response){
             console.log(response);
-            $("#waypointlist").append('<li class="list-group-item">'+response.name+'</li>');
+            //$("#waypointlist").append('<li class="list-group-item">'+response.name+'</li>');
         }
     });
 }

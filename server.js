@@ -58,7 +58,7 @@ function handleError(req, res, statusCode, message){
 
 var http = require('http');
 var server = http.createServer(app);
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
 
 //Routes
 var routes = require('./routes/index');
@@ -93,5 +93,5 @@ app.use('/waypoints', waypoints);
 app.use('/backend', backend);
 
 // launch ======================================================================
-app.listen(port);
+server.listen(port);
 console.log('The magic happens on port ' + port);

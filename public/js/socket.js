@@ -5,11 +5,8 @@ socket.on('beheer', function(line){
 
 socket.on('new waypoint', function(data){
 	console.log(data);
-	/*if(raceId == data.race){
-		html = "<tr>";
-		html += '<td><span>'+data.participant+'<span></td>';
-		html += "</tr>";
-		$(".tableCurrentDeelnemers").append(html);
-		html = "";
-	}*/
+
+	if(currentRace == data.race){
+		$("#waypointlist").append('<li class="list-group-item">'+data.waypoint+'</li>');
+	}
 });

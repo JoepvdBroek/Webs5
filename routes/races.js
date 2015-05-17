@@ -179,7 +179,8 @@ function addWaypoint(req, res){
 				if(err){ return handleError(req, res, 500, err); }
 				request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint._id+"&key="+configAuth.googleAuth.APIKey,function(err,result){
 					data = (JSON.parse(result.body).result);
-					socket.emit('new waypoint', {race:race, waypoint:waypoint});
+					socket.emit('new waypoint', {"race":race._id, "waypoint":data.name});
+ 					//socket.broadcast.emit('new waypoint', {"race":race._id, "waypoint":data.name});
 					res.json(data);
 				})
 			});
