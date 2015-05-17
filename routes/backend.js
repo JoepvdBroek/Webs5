@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express();
+var socket;
 
 /* GET home page. */
 /*router.get('/', function(req, res, next) {
@@ -10,7 +11,11 @@ var router = express();
 
 //module.exports = router;
 
-module.exports = function(roles){
+module.exports = function(roles, io){
+	socket = io;
+	socket.sockets.on('connection', function (socket) {
+        socket.emit('beheer','welkom in beheer');
+	});
 
 	/* GET home page. */
     router.route('/').get(roles.can('access beheerder'),function(req, res) {

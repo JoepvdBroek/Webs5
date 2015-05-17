@@ -56,11 +56,15 @@ function handleError(req, res, statusCode, message){
     res.json(message);
 };
 
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io')(server);
+
 //Routes
 var routes = require('./routes/index');
 var waypoints = require('./routes/waypoints')(handleError);
-var races = require('./routes/races')(mongoose, roles, handleError);
-var backend = require('./routes/backend')(roles);
+var races = require('./routes/races')(mongoose, roles, io, handleError);
+var backend = require('./routes/backend')(roles, io);
 
 // set up our express application
 app.use(express.static(path.join(__dirname, 'public')));

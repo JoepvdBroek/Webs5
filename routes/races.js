@@ -8,6 +8,7 @@ var router = express();
 var Race;
 var Waypoint;
 var handleError;
+var socket;
 var configAuth = require('../config/auth');
 
 function getWaypointById(id,callback){
@@ -178,6 +179,7 @@ function addWaypoint(req, res){
 				if(err){ return handleError(req, res, 500, err); }
 				request.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+waypoint._id+"&key="+configAuth.googleAuth.APIKey,function(err,result){
 					data = (JSON.parse(result.body).result);
+					socket.emit('new waypoint', {race:race, waypoint:waypoint});
 					res.json(data);
 				})
 			});
@@ -322,10 +324,11 @@ function checkDate(enddate){
 	
 
 // Export
-module.exports = function (mongoose, roles,  errCallback){
+module.exports = function (mongoose, roles, io,  errCallback){
 	console.log('Initializing race routing module');
 	Race = mongoose.model('Race');
 	Waypoint = mongoose.model('Waypoint');
+	socket = io;
 	handleError = errCallback;
 
 	// Routing
