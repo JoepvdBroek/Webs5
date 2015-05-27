@@ -301,7 +301,29 @@ function addWaypoint(id){
 }
 
 function addParticipant(){
+    var user = $('#user').val();
 
+    var url = prefix+'/races/'+currentRace+'/participants';
+
+    $.ajax({
+        url: url,
+        type:'PUT',
+        dataType:'json',
+        data: { "user": user },
+        error:function(jqXHR,text_status,strError){
+            alert('error addding participants: '+ strError);
+        },
+        success:function(response){
+            console.log(response);
+
+            var participants = '';
+            for (i = 0; i < response.participants.length; i++) {
+               participants += '<li class="list-group-item">'+response.participants[i]+'</li>'; 
+            }
+            $("#participantslist").html(participants);
+            
+        }
+    });
 }
 
 function fillUpdateRaceForm(raceId){
